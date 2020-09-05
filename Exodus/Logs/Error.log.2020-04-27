@@ -1,0 +1,40 @@
+﻿[DATE] [27 Apr 2020 16:58:35]  
+[MESSAGE] USER:  [-1]MESSAGE: User Not Found 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(E:\Vadim\Exodus\Exodus_SPA\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Exception: User Not Found
+   в Exodus.API.Controllers.UserController.<>c__DisplayClass0_0.<Login>b__0() в E:\Vadim\Exodus\Exodus_SPA\Exodus\API\Controllers\UserController.cs:строка 40
+   в Exodus.API.Controllers.BaseApiController.InvokeAPI[T](Func`1 action, String api_key, Boolean checkKey) в E:\Vadim\Exodus\Exodus_SPA\Exodus\API\Controllers\BaceApiController.cs:строка 56
+[DATE] [27 Apr 2020 17:04:35]  
+[MESSAGE] USER:  [-1]MESSAGE: Контроллер для пути "/api/UserLogin" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(E:\Vadim\Exodus\Exodus_SPA\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/api/UserLogin" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [27 Apr 2020 17:05:09]  
+[MESSAGE] USER:  [-1]MESSAGE: User Not Found 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(E:\Vadim\Exodus\Exodus_SPA\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Exception: User Not Found
+   в Exodus.API.Controllers.UserController.<>c__DisplayClass0_0.<Login>b__0() в E:\Vadim\Exodus\Exodus_SPA\Exodus\API\Controllers\UserController.cs:строка 40
+   в Exodus.API.Controllers.BaseApiController.InvokeAPI[T](Func`1 action, String api_key, Boolean checkKey) в E:\Vadim\Exodus\Exodus_SPA\Exodus\API\Controllers\BaceApiController.cs:строка 56
