@@ -90,6 +90,7 @@
   <word key="SearchPageResultsUsers" value="Only users"></word>
   <word key="Ones" value="Ones"></word>
   <word key="CopyLink" value="Copy link"></word>
+  <word key="CopyLinkToInvite" value="Copy link to invite a new user"></word>
   <word key="Apps" value="Applications"></word>
   <word key="Password" value="Password"></word>
   <word key="InviteYouToTag" value="invites you to join tag"></word>
@@ -254,6 +255,7 @@
   <word key="ToUser" value="To user"></word>
   <word key="ForUser" value="For user"></word>
   <word key="User" value="User"></word>
+  <word key="UserInitiatives" value="User initiatives"></word>
   <word key="UserAlreadyExist" value="Registration failed. A user with the given Email is already registered"></word>
   <word key="TypeOfObligation" value="Type of obligation"></word>
   <word key="IAm" value="I am"></word>

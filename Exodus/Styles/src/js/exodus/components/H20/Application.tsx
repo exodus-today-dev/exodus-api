@@ -8,7 +8,6 @@ import {
     getApiKey,
     getCurrencySymbol
 } from './../../global';
-import { bind } from './../../load';
 import {AccessType, TagRole} from '../../enums';
 import {AddIntentionToApplication} from '../Shared/AddIntentionToApplication';
 
@@ -35,6 +34,8 @@ interface State {
     intentionEdit: boolean;
     loading: boolean;
     loadingDetails: boolean;
+    isIntentionsData: boolean;
+    isObligationsData: boolean;
     showIntentions: boolean;
     showObligations: boolean;
     indicatorDataReady: number;
@@ -55,11 +56,13 @@ export class H2OApplication extends React.Component<Props, State> {
             expectedCurMonth: 0,
             expectedNextMonth: 0,
             intentionEdit: false,
+            isIntentionsData: false,
+            isObligationsData: false,
             loading: false,
             loadingDetails: false,
             showIntentions: false,
             showObligations: false,
-            indicatorDataReady: 0
+            indicatorDataReady: 0,
         };
         this.userID = getUserID();
         this.tagRole = this.props.tagRole;
@@ -77,8 +80,6 @@ export class H2OApplication extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const tagInviteWrapper = document.querySelector('.tag-invite-members-container_wrapper');
-        if (tagInviteWrapper) bind(tagInviteWrapper);
     }
 
     componentWillMount() {
@@ -88,6 +89,7 @@ export class H2OApplication extends React.Component<Props, State> {
         fetch('/api/Tag/Get_ByID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
             .then(response => response.json())
             .then(json => {
+               // console.log(json.Data)
                 that.setState({tag: json.Data}, () => {
                     that.getFundsInfo();
                 });
@@ -99,7 +101,10 @@ export class H2OApplication extends React.Component<Props, State> {
         // fill current and next months intentions, funds and obligations
         let that = this;
 
-        that.setState({loading: true});
+        that.setState({loading: true,
+            isIntentionsData: false,
+            isObligationsData: false,
+        });
         // take info about all intentions
         fetch('/api/Intention/ByUserIssuerID_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID + '&UserID=' + this.userID, {credentials: 'include'})
             .then(response => response.json())
@@ -111,14 +116,15 @@ export class H2OApplication extends React.Component<Props, State> {
                     fetch('/api/Obligation/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
                         .then(response => response.json())
                         .then(json => {
-                            that.setState({obligations: json.Data});
+                            that.setState({obligations: json.Data, isObligationsData: true});
                         });
                     fetch('/api/Intention/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
                         .then(response => response.json())
                         .then(json => {
                             that.setState({
                                 intentions: json.Data,
-                                loading: false
+                                loading: false,
+                                isIntentionsData: true
                             });
                         });
                 } else {
@@ -319,7 +325,7 @@ export class H2OApplication extends React.Component<Props, State> {
     }
 
     render() {
-        let {tag, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
+        let {tag, isIntentionsData, isObligationsData, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
         let {tagRole} = this;
         let monthsLeftCaption = "";
 
@@ -386,20 +392,23 @@ export class H2OApplication extends React.Component<Props, State> {
             <div>
                 {
                     tagRole != TagRole.None &&
-                    <div className="ex-list ex-grid_0-1-1">
+                    <div className="ex-list ex-grid_0-1-1"
+                         data-loading={!isObligationsData && !isIntentionsData}
+                    >
                         <div className='tag-invite-members-container_wrapper'>
                             <InviteUserToTag tagID={this.props.tagID} />
-                            <div className='copy-invite' id="LinkButton">{getLangValue("CopyInvitationLink")}</div>
-                            <div className='hidden' id="linkToJoin">{this.state.tag.LinkToJoin}</div>
                         </div>
                         <div className='tag-members-table_wrapper'>
                             <TagMembersTable
+                                isIntentionsData={isIntentionsData}
+                                isObligationsData={isObligationsData}
                                 intentions={intentions}
                                 obligations={obligations}
                                 intentionDelete={this.intentionDelete}
                                 obligationDelete={this.obligationDelete}
                                 updateFundsInfo={this.updateFundsInfo}
                                 convertIntentionToObligation={this.convertIntentionToObligation}
+                                tag={tag}
                             />
                         </div>
 
@@ -411,6 +420,8 @@ export class H2OApplication extends React.Component<Props, State> {
                                     intentions={intentions}
                                     obligations={obligations}
                                     tag={tag}
+                                    isIntentionsData={isIntentionsData}
+                                    isObligationsData={isObligationsData}
                                 />
                             </div>
                         }

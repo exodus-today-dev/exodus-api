@@ -1,10 +1,15 @@
 import * as React from "react";
-import {getUserID, getLangValue, getCurrencySymbol} from "../../global";
+import {getUserID, getLangValue, getCurrencySymbol, getUserStatusClassname} from "../../global";
 
 
 interface Props {
     intentions: any[],
     obligations: any[],
+    isIntentionsData: boolean,
+    isObligationsData: boolean,
+    tag: {
+        DefaultIntentionOwner: { UserStatus: number },
+    },
 
     updateFundsInfo(): any,
 
@@ -18,13 +23,13 @@ interface Props {
 export class TagMembersTable extends React.Component<Props> {
     curUserID: number;
 
-    constructor(props:any) {      
+    constructor(props: any) {
         super(props);
         this.curUserID = +getUserID();
     }
 
     render() {
-        let {intentions, obligations} = this.props
+        let {intentions, obligations, isIntentionsData, isObligationsData} = this.props
         let tagMembersWithIntention = intentions.map((intention) => {
             return {
                 userID: intention.IntentionIssuer.UserID,
@@ -63,10 +68,15 @@ export class TagMembersTable extends React.Component<Props> {
                 return 0;
             }
         );
+
+
         let tagMembersTable = tagMembers.map((tagMember, index) => {
                 if (tagMember.isActive) return (
                     <tr key={tagMember.userID + index}
-                        className={tagMember.userID == this.curUserID ? 'tag-member my-intention' : 'tag-member'}>
+                        className={tagMember.userID == this.curUserID ?
+                            `tag-member my-intention ${getUserStatusClassname(this.props.tag.DefaultIntentionOwner.UserStatus)}`
+                            :
+                            `tag-member ${getUserStatusClassname(this.props.tag.DefaultIntentionOwner.UserStatus)}`}>
                         <td key={`${tagMember.userID + index}0`}
                             className='member-avatar'>
                             <img
@@ -84,8 +94,8 @@ export class TagMembersTable extends React.Component<Props> {
                             className='member-intention'
                         >
                             {tagMember.intentionAmount ?
-                                <div>
-                            <span>{getCurrencySymbol(tagMember.currency)}
+                                <div className='colored-back'>
+                            <span className='colored-amount'>{getCurrencySymbol(tagMember.currency)}
                                 {tagMember.intentionAmount}</span>
                                 </div> :
                                 tagMember.userID == this.curUserID ?
@@ -100,8 +110,8 @@ export class TagMembersTable extends React.Component<Props> {
                             className='member-intention'
                         >
                             {tagMember.obligationAmount ?
-                                <div>
-                            <span>{getCurrencySymbol(tagMember.currency)}
+                                <div className='colored-back'>
+                            <span className='colored-amount'>{getCurrencySymbol(tagMember.currency)}
                                 {tagMember.obligationAmount}</span>
                                 </div> :
                                 tagMember.userID == this.curUserID ?
@@ -150,7 +160,7 @@ export class TagMembersTable extends React.Component<Props> {
             }
         )
         return (
-            <table className='tag-members-table'>
+            isIntentionsData && isObligationsData && <table className='tag-members-table'>
                 <thead>
                 <tr key='header' className='tab-header'>
                     <th key='header1' className='tab-header_icon'><i

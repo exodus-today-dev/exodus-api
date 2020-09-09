@@ -11,6 +11,7 @@ var CardTypeCaption = ["",getLangValue('CardNumber'), getLangValue('PayPalLogin'
 interface Props {
     PaymentsAccounts:PaymentAccountStore;
     update:Function;
+    editable: boolean;
 }
 
 interface State {
@@ -150,7 +151,10 @@ export class PaymentAccountEdit extends React.Component<Props, State> {
         event.preventDefault();
     }
 
-    render() { 
+    render() {
+
+        const {editable}=this.props
+
         return (<div>
             <div className="py-3">
                 <div className="row">
@@ -173,13 +177,13 @@ export class PaymentAccountEdit extends React.Component<Props, State> {
                         </p>
                     </div>
                     <div className="col-4">
-                        <div className="text-right text-primary w-100">
+                        {editable && <div className="text-right text-primary w-100">
                             { this.state.edit ?                                
                                 <span className="if-expanded" style={{cursor:'pointer'}} onClick={this.handleEdit}>{getLangValue('Cancel')}</span>:
                                 <span className="if-not-expanded" style={{cursor:'pointer'}} onClick={this.handleEdit}>{getLangValue('Edit')}</span>
                             }
                             <i className="ml-4 small icons-edit"></i>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             

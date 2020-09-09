@@ -754,6 +754,7 @@
     <Content Include="Styles\dist\images\icons\info.svg" />
     <Content Include="Styles\dist\images\icons\logout.svg" />
     <Content Include="Styles\dist\images\icons\person.svg" />
+    <Content Include="Styles\dist\images\icons\relationship.png" />
     <Content Include="Styles\dist\images\icons\search.png" />
     <Content Include="Styles\dist\images\icons\search.svg" />
     <Content Include="Styles\dist\images\icons\social.svg" />

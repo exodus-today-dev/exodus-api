@@ -242,6 +242,13 @@ namespace Exodus.Controllers
             return PartialView($"~/Views/Partial/Tag/TagInfo.cshtml", new Tuple<VM_Tag, bool?>(tag, AllowCopyLink));
         }
 
+        [HttpGet]
+        public PartialViewResult PaymentDetails(long TagID)
+        {
+            if (!Global.Cache.CheckTagExists(TagID)) { throw new TagNotFoundException(); }
+            VM_Tag tag = _DL.Tag.Get.ByID(TagID);
+            return PartialView($"~/Views/Partial/Tag/PaymentDetails.cshtml", tag);
+        }
 
         [HttpGet]
         public PartialViewResult AppList(long TagID)

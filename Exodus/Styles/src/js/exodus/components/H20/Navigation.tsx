@@ -14,6 +14,7 @@ import {bind} from '../../load';
 
 const moment = require('moment');
 import {getLang} from "../../global";
+import {isNull} from "util";
 
 interface Props {
     defaultIntentionOwnerID: Number;
@@ -36,6 +37,7 @@ interface State {
     userLoading: Boolean;
     tagRole: TagRole;
     allowCopyLink: boolean;
+    isActive:boolean;
 }
 
 export class Navigation extends React.Component<Props, State> {
@@ -59,10 +61,17 @@ export class Navigation extends React.Component<Props, State> {
             userStatus: undefined,
             userLoading: true,
             tagRole: TagRole.None,
-            allowCopyLink: false
+            allowCopyLink: false,
+            isActive:true,
         };
         this.updateTagRoleInfo = this.updateTagRoleInfo.bind(this);
+        this.checkIsActive = this.checkIsActive.bind(this);
         window.updateTagRoleInfo = this.updateTagRoleInfo;
+    }
+
+    componentDidMount() {
+        const hyperlinkSection = document.querySelector('.hyperlink-section');
+        //if (hyperlinkSection) bind(hyperlinkSection);
     }
 
     componentWillMount() {
@@ -153,6 +162,17 @@ export class Navigation extends React.Component<Props, State> {
         return tagRole;
     }
 
+
+
+    checkIsActive(){
+        const checkEl = document.querySelector('.check');
+        if (checkEl && checkEl.classList.contains('active')) {
+            this.setState({isActive:true})
+        } else {
+            this.setState({isActive:false})
+        }
+    }
+
     render() {
         let {
             tagRole,
@@ -168,7 +188,7 @@ export class Navigation extends React.Component<Props, State> {
             tag,
         } = this.state;
 
-        return (<div>
+        return (<div onClick={()=>this.checkIsActive()}>
                 <div className="ex-navigation__info" data-loading={userLoading}>
                     <div className="ex-navigation__header">
                         <div className="ex-navigation__content">
@@ -180,107 +200,132 @@ export class Navigation extends React.Component<Props, State> {
                 </div>
 
                 <div
-                    className={"ex-navigation__item ex-navigation__item-status active " + getUserStatusClassname(userStatus)}>
+                    data-load={"/H2O/AppH2ODefaultPage?TagID=" + this.props.tagID + "&TagRole=" + tagRole}
+                    className={"ex-navigation__item ex-navigation__item-status check active " + getUserStatusClassname(userStatus)}
+                >
                     <div className="ex-navigation__title"
                          data-load={"/H2O/AppH2ODefaultPage?TagID=" + this.props.tagID + "&TagRole=" + tagRole}
-                         data-target="#ex-route-2">
-                        <i className="icons-status-circle ex-navigation__icon"></i>
+                         data-target="#ex-route-2"
+                    >
+                        <i className="icons-status-circle ex-navigation__icon"> </i>
                         <p>{getLangValue("Status") + ": " + (getUserStatusDescription(userStatus)).toLowerCase()}</p>
                     </div>
-                    <div className="ex-navigation__circle-diagram">
-                        <TagFundsProgressDiagram
-                            required={userHelpAmountRequired}
-                            collected={curMonthObligationAmount}
-                            expected={monthIntentionAmount}
-                            month={moment.months(moment().month())}
-                            width={130}
-                        />
-                        <div className='diagram-description'>
-                            <p className='total'>{getLangValue('Funds.Total')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {userHelpAmountRequired ? userHelpAmountRequired : '0'}</b>
+                    {this.state.isActive?
+                        <div>
+                        <div className="ex-navigation__circle-diagram">
+                            <TagFundsProgressDiagram
+                                required={userHelpAmountRequired}
+                                collected={curMonthObligationAmount}
+                                expected={monthIntentionAmount}
+                                month={moment.months(moment().month())}
+                                width={130}
+                                userStatus={userStatus}
+                            />
+                            <div className='diagram-description'>
+                                <p className='total'>{getLangValue('Funds.Total')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {userHelpAmountRequired ? userHelpAmountRequired : '0'}</b>
+                                </p>
+                                <p className={'collected ' + getUserStatusClassname(userStatus)}>{getLangValue('Funds.Collected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {curMonthObligationAmount ? curMonthObligationAmount : '0'}</b>
+                                </p>
+                                <p className='expected'>{getLangValue('Funds.Expected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {monthIntentionAmount ? monthIntentionAmount : '0'}</b>
+                                </p>
+                            </div>
+                        </div>
+                        <div className='ex-navigation__tag-info'>
+                            <p className='item'>
+                                <img src="/Styles/dist/images/icons/coin.png"
+                                     alt="coin"/>
+                                {`${getLangValue("MinIntention")} `}
+                                {getCurrencySymbol(tag.MinIntentionCurrencyID)}
+                                {` ${tag.MinIntentionAmount ? tag.MinIntentionAmount : '0'}`}
                             </p>
-                            <p className='collected'>{getLangValue('Funds.Collected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {curMonthObligationAmount ? curMonthObligationAmount : '0'}</b>
+                            <p className='item'>
+                                <img src="/Styles/dist/images/icons/waiting.png"
+                                     alt="waiting"/>
+                                {tag.Period === Period.Monthly &&
+                                <span>
+                                    {` ${getLangValue('Regularly')}`},
+                                    {` ${tag.DayOfMonth} `}
+                                    {getLangValue('DayOfEveryMonth').toLowerCase()}
+                                </span>
+                                }
+                                {tag.Period === Period.Weekly &&
+                                <span>
+                                    {` ${getLangValue('Regularly')}`},
+                                    {` ${getOnDayOfWeek(tag.DayOfWeek)} `.toLowerCase()}
+                                </span>
+                                }
+                                {tag.Period === Period.Once &&
+                                <span>
+                                    {` ${getLangValue('Period.Once')}`}
+                                </span>
+                                }
+                                {tag.Period === Period.Undefined &&
+                                <span>
+                                    {` ${getLangValue('Unset')}`}
+                                </span>
+                                }
                             </p>
-                            <p className='expected'>{getLangValue('Funds.Expected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {monthIntentionAmount ? monthIntentionAmount : '0'}</b>
+                            <p className='item hyperlink-section'>
+                                <img src="/Styles/dist/images/icons/hyperlink.png"
+                                     alt="hyperlink"/>
+                                {/*<a href={`${window.location.origin}/user?${tag.Owner_UserID ? tag.Owner_UserID : ''}`}>*/}
+                                {/*    {`${window.location.origin}/user?${tag.Owner_UserID ? tag.Owner_UserID : ''}`}*/}
+                                {/*</a>*/}
+                                <span className='copy-invite' id="LinkButton">{getLangValue("CopyLinkToInvite")}</span>
+                                <span className='hidden' id="linkToJoin">{this.state.tag.LinkToJoin}</span>
                             </p>
+
                         </div>
                     </div>
-                    <div className='ex-navigation__tag-info'>
-                        <p className='item'>
-                            <img src="/Styles/dist/images/icons/coin.png"
-                                 alt="coin"/>
-                            {`${getLangValue("MinIntention")} `}
-                            {getCurrencySymbol(tag.MinIntentionCurrencyID)}
-                            {` ${tag.MinIntentionAmount ? tag.MinIntentionAmount : '0'}`}
-                        </p>
-                        <p className='item'>
-                            <img src="/Styles/dist/images/icons/waiting.png"
-                                 alt="waiting"/>
-                            {tag.Period === Period.Monthly &&
-                            <>
-                                {` ${getLangValue('Regularly')}`},
-                                {` ${tag.DayOfMonth} `}
-                                {getLangValue('DayOfEveryMonth').toLowerCase()}
-                            </>
-                            }
-                            {tag.Period === Period.Weekly &&
-                            <>
-                                {` ${getLangValue('Regularly')}`},
-                                {` ${getOnDayOfWeek(tag.DayOfWeek)} `.toLowerCase()}
-                            </>
-                            }
-                            {tag.Period === Period.Once &&
-                            <>
-                                {` ${getLangValue('Period.Once')}`}
-                            </>
-                            }
-                            {tag.Period === Period.Undefined &&
-                            <>
-                                {` ${getLangValue('Unset')}`}
-                            </>
-                            }
-                        </p>
-                        <p className='item'>
-                            <img src="/Styles/dist/images/icons/hyperlink.png"
-                                 alt="hyperlink"/>
-                            <a href={`${window.location.origin}/user?${tag.Owner_UserID ? tag.Owner_UserID : ''}`}>
-                                {`${window.location.origin}/user?${tag.Owner_UserID ? tag.Owner_UserID : ''}`}
-                            </a>
-                        </p>
+                        :
+                        null}
 
-                    </div>
                 </div>
 
                 <div className="ex-navigation__item"
                      data-load={"/H2O/UserList?TagID=" + this.props.tagID}
                      data-target="#ex-route-2">
                     <div className="ex-navigation__title">
-                        <i className="icons-person ex-navigation__icon"></i>
-                        <p>{getLangValue("Members")}</p>
+                        <img
+                            src="/Styles/dist/images/icons/relationship.png"
+                            alt="basket"/>
+                        <p>{getLangValue("UserInitiatives")}</p>
                     </div>
                 </div>
 
-                <div className="ex-navigation__item"
-                     hidden={tagRole == TagRole.None}
-                     data-load={"/H2O/InviteMembers?TagID=" + this.props.tagID}
-                     data-target="#ex-route-2">
-                    <div className="ex-navigation__title">
-                        <i className="icons-person ex-navigation__icon"></i>
-                        <p>{getLangValue("InviteMembers")}</p>
-                    </div>
-                </div>
+
+
+                {/*<div className="ex-navigation__item"*/}
+                {/*     data-load={"/H2O/UserList?TagID=" + this.props.tagID}*/}
+                {/*     data-target="#ex-route-2">*/}
+                {/*    <div className="ex-navigation__title">*/}
+                {/*        <i className="icons-person ex-navigation__icon"></i>*/}
+                {/*        <p>{getLangValue("Members")}</p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+                {/*<div className="ex-navigation__item"*/}
+                {/*     hidden={tagRole == TagRole.None}*/}
+                {/*     data-load={"/H2O/InviteMembers?TagID=" + this.props.tagID}*/}
+                {/*     data-target="#ex-route-2">*/}
+                {/*    <div className="ex-navigation__title">*/}
+                {/*        <i className="icons-person ex-navigation__icon"></i>*/}
+                {/*        <p>{getLangValue("InviteMembers")}</p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+                {/*<div className="ex-navigation__item"*/}
+                {/*     data-load={"/Tag/TagInfo?TagID=" + this.props.tagID + "&AllowCopyLink=" + allowCopyLink}*/}
+                {/*     data-target="#ex-route-2">*/}
+                {/*    <div className="ex-navigation__title">*/}
+                {/*        <i className="icons-info ex-navigation__icon"></i>*/}
+                {/*        <p>{getLangValue("TagInfo")}</p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <div className="ex-navigation__item"
-                     data-load={"/Tag/TagInfo?TagID=" + this.props.tagID + "&AllowCopyLink=" + allowCopyLink}
-                     data-target="#ex-route-2">
-                    <div className="ex-navigation__title">
-                        <i className="icons-info ex-navigation__icon"></i>
-                        <p>{getLangValue("TagInfo")}</p>
-                    </div>
-                </div>
-
-                <div className="ex-navigation__item"
-                     data-load={"/Tag/TagInfo?TagID=" + this.props.tagID + "&AllowCopyLink=" + allowCopyLink}
-                     data-target="#ex-route-2">
+                    data-load={"/Tag/PaymentDetails?TagID=" + this.props.tagID}
+                    data-target="#ex-route-2">
                     <div className="ex-navigation__title">
                         <i className="icons-card ex-navigation__icon"></i>
                         <p>{getLangValue("PaymentDetails")}</p>

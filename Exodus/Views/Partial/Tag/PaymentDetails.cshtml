@@ -1,0 +1,23 @@
+﻿@model VM_Tag
+@using Exodus.ViewModels
+@using Exodus.Helpers
+@using Exodus.Enums
+@{
+    var tag = Model;
+    var lang = PageHelper.Language;
+}
+
+
+<div id="ex-route-1">
+    <div id="ex-screen-2" class="ex-panels ex-scroll ex-scroll_with-free-space" style="margin-right: -19px;">
+        <div class="ex-panel">
+            <div class="ex-panel__header">
+                <i className="icons-card ex-navigation__icon"></i>
+                @Exodus.Global.Localisation.Get("PaymentDetails", lang)
+            </div>
+
+            <div class="ex-panel__content" data-react="/PaymentAccount/PaymentAccountList?editable=false&UserID=@tag.DefaultIntentionOwner.UserID"></div>
+
+        </div>
+    </div>
+</div>

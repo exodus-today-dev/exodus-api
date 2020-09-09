@@ -1,11 +1,16 @@
 import * as React from "react";
-import {getLangValue, getCurrencySymbol} from "../../global";
+import {getLangValue, getCurrencySymbol, getUserID, getUserStatusClassname} from "../../global";
 
 interface Props {
     intentions: any[],
     obligations: any[],
+    isIntentionsData: boolean,
+    isObligationsData: boolean,
     tag: {
-        DefaultIntentionOwner: { AvatarSmall: string },
+        DefaultIntentionOwner: {
+            AvatarSmall: string,
+            UserStatus: number
+        },
         OwnerFirstName: string,
         OwnerLastName: string,
         TotalAmountCurrencyID: number,
@@ -14,14 +19,14 @@ interface Props {
 }
 
 export class TagTotalTable extends React.Component<Props> {
-    
+
     render() {
-        let {intentions, obligations, tag} = this.props;
+        let {intentions, obligations, tag, isIntentionsData, isObligationsData} = this.props;
         let totalTagIntentions = intentions.reduce((sum, intention) => sum + intention.IntentionAmount, 0);
         let totalTagObligations = obligations.reduce((sum, obligation) => sum + obligation.AmountTotal, 0);
 
         return (
-            <table className='tag-members-table'>
+            isIntentionsData && isObligationsData &&   <table className='tag-members-table'>
                 <thead>
                 <tr key='header' className='tab-header'>
                     <th key='header1' className='tab-header_icon'>
@@ -35,7 +40,7 @@ export class TagTotalTable extends React.Component<Props> {
                 </thead>
                 <tbody>
                 <tr key='total'
-                    className='tag-member'>
+                    className={`tag-member ${getUserStatusClassname(this.props.tag.DefaultIntentionOwner.UserStatus)}`}>
                     <td key='owner-avatar'
                         className='member-avatar'>
                         <img
@@ -44,15 +49,15 @@ export class TagTotalTable extends React.Component<Props> {
                     </td>
                     <td key='owner-name'
                         className='member-name'>
-                        <span>{tag.OwnerFirstName? tag.OwnerFirstName[0].toUpperCase() + tag.OwnerFirstName.slice(1):null}</span><br/>
-                        <span>{tag.OwnerLastName? tag.OwnerLastName[0].toUpperCase() + tag.OwnerLastName.slice(1):null}</span>
+                        <span>{tag.OwnerFirstName ? tag.OwnerFirstName[0].toUpperCase() + tag.OwnerFirstName.slice(1) : null}</span><br/>
+                        <span>{tag.OwnerLastName ? tag.OwnerLastName[0].toUpperCase() + tag.OwnerLastName.slice(1) : null}</span>
                     </td>
                     <td key='total-intentions'
                         className='member-intention'
                     >
                         {totalTagIntentions ?
                             <div>
-                            <span>{getCurrencySymbol(tag.TotalAmountCurrencyID)}
+                            <span className='colored-amount'>{getCurrencySymbol(tag.TotalAmountCurrencyID)}
                                 {totalTagIntentions}</span>
                             </div> :
                             null

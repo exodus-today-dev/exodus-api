@@ -90,6 +90,7 @@
   <word key="SearchPageResultsUsers" value="Только пользователи"></word>
   <word key="Ones" value="Единоразово"></word>
   <word key="CopyLink" value="Скопировать ссылку"></word>
+  <word key="CopyLinkToInvite" value="Копировать ссылку для приглашения нового пользователя"></word>
   <word key="Apps" value="Приложения"></word>
   <word key="Password" value="Пароль"></word>
   <word key="InviteYouToTag" value="приглашает вас присоедениться к тэгу"></word>
@@ -252,6 +253,7 @@
   <!-- Users -->
   <word key="UserNotFound" value="Пользователь не найден"></word>
   <word key="User" value="Пользователь"></word>
+  <word key="UserInitiatives" value="Инициативы пользователя"></word>
   <word key="UserAlreadyExist" value="Ошибка регистрации. Пользователь с таким email уже зарегистрирован"></word>
   <word key="ToUser" value="Пользователю"></word>
   <word key="ForUser" value="Для пользователя"></word>

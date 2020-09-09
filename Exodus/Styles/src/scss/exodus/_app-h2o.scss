@@ -69,6 +69,11 @@
         color: #d9d9d9;
       }
 
+      & > img {
+        margin-left: 3px;
+        margin-right: 26px;
+      }
+
       & > .ex-navigation__icon {
         position: static;
         width: 30px;
@@ -84,18 +89,19 @@
       }
     }
 
-    & > .ex-navigation__circle-diagram {
+    & .ex-navigation__circle-diagram {
       margin-top: 38px;
       display: flex;
       justify-content: space-between;
 
-      & > .diagram {
+      & .diagram {
         position: relative;
 
         & .required {
           position: absolute;
           border-radius: 50%;
-          background: #4d4d4d;
+          //background: #4d4d4d;
+          background: #ffffff;
           z-index: 1;
         }
 
@@ -125,36 +131,67 @@
         }
       }
 
-      & > .diagram-description {
+      & .diagram-description {
         text-align: right;
         margin-top: 20px;
 
         & p {
+
           font-size: 18px;
           line-height: 18px;
         }
 
         & .total {
-          color: #4d4d4d;
+          //color: #4d4d4d;
+          font-size: 24px;
+          color: #ffffff;
         }
 
         & .collected {
-          color: #ffc517;
+         // color: #ffc517;
+        }
+
+        & .green-status{
+          color: $green;
+        }
+
+        & .yellow-status{
+          color: $yellow;
+        }
+
+        & .red-status{
+         color: $red;
         }
 
         & .expected {
-          color: #999999;
+          //color: #999999;
+          color: #d0d0d0;
         }
       }
     }
 
-    & > .ex-navigation__tag-info {
+    & .ex-navigation__tag-info {
       color: #B3B3B3;
       padding-top: 40px;
 
       & p {
-        line-height: 10px;
+        line-height: 20px;
         margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+
+        & span {
+          line-height: 20px;
+        }
+
+        & .copy-invite {
+          cursor: pointer;
+          text-decoration: underline;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
       }
 
       & img {
@@ -211,11 +248,16 @@
     &.ex-navigation__item-status {
       padding-top: 40px;
       padding-bottom: 35px;
+      cursor: auto;
 
-      & .ex-navigation__circle-diagram,
-      & .ex-navigation__tag-info {
-        cursor: auto;
+      & .ex-navigation__title {
+        cursor: pointer;
       }
+
+      //& .ex-navigation__circle-diagram,
+      //& .ex-navigation__tag-info {
+      //  cursor: auto;
+      //}
 
       & .ex-navigation__icon {
         width: 21px;
@@ -586,14 +628,14 @@
         padding: 10px;
 
         & span {
-          color: #FFC517;
+          //color: #FFC517;
           font-size: 20px;
           font-weight: 700;
         }
       }
 
       & .back {
-        background-color: #FFC517;
+       // background-color: #FFC517;
 
         & span {
           color: #FFFFFF;
@@ -602,7 +644,64 @@
     }
   }
 
-  .my-intention {
+  & .tag-member.green-status {
+    & .colored-amount {
+      color: $green;
+    }
+
+    & .back {
+      background-color: $green;
+    }
+  }
+
+  & .tag-member.yellow-status {
+    & .colored-amount {
+      color: $yellow;
+    }
+
+    & .back {
+      background-color: $yellow;
+    }
+  }
+
+  & .tag-member.red-status {
+    & .colored-amount {
+      color: $red;
+    }
+
+    & .back {
+      background-color: $red;
+    }
+  }
+
+  & .tag-member.my-intention.green-status {
+    & .colored-back {
+      background-color: $green;
+    }
+    & .colored-amount {
+      color: white;
+    }
+  }
+
+  & .tag-member.my-intention.yellow-status {
+    & .colored-back {
+      background-color: $yellow;
+    }
+    & .colored-amount {
+      color: white;
+    }
+  }
+
+  & .tag-member.my-intention.red-status {
+    & .colored-back {
+      background-color: $red;
+    }
+    & .colored-amount {
+      color: white;
+    }
+  }
+
+  & .my-intention {
     background-color: #5A5A5A;
 
     & .member-name {
@@ -611,7 +710,7 @@
 
     & .member-intention {
       & div {
-        background-color: #FFC517;
+        //  background-color: #FFC517;
 
         & span {
           color: #FFFFFF;

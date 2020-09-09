@@ -5,7 +5,8 @@ interface Props {
     collected: number,
     expected: number,
     month: string,
-    width: number
+    width: number,
+    userStatus?: number,
 }
 
 export class TagFundsProgressDiagram extends React.Component<Props> {
@@ -47,6 +48,8 @@ export class TagFundsProgressDiagram extends React.Component<Props> {
             width: `${width / 1.548}px`
         }
 
+        const {userStatus}=this.props
+
         return (
             <div className='diagram'
                  style={widthStyle}>
@@ -54,11 +57,11 @@ export class TagFundsProgressDiagram extends React.Component<Props> {
                      style={widthStyle}> </div>
                 <svg className='collected'
                      style={widthStyle}>
-                    <path fill="#ffc517" d={coll}/>
+                    <path fill={userStatus===3? '#fd6721': userStatus===2? '#ffc517': '#67971a' } d={coll}/>
                 </svg>
                 <svg className='expected'
                      style={widthStyle}>
-                    <path fill="#999999" d={exp}/>
+                    <path fill="#d0d0d0" d={exp}/>
                 </svg>
                 <div className='month'
                      style={monthStyle}>
