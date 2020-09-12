@@ -25,6 +25,7 @@ interface State {
     tag?: any;
     intentionOwnerFullName: string;
     intentionOwnerAvatar: string;
+    intentionOwnerID: number;
     monthIntentionAmount: number;
     monthIntentionCurrency: string;
     curMonthObligationAmount: number;
@@ -50,6 +51,7 @@ export class Navigation extends React.Component<Props, State> {
             tag: {},
             intentionOwnerFullName: '',
             intentionOwnerAvatar: '',
+            intentionOwnerID: NaN,
             monthIntentionAmount: NaN,
             userHelpAmountRequired: NaN,
             userHelpAmountCurrency: NaN,
@@ -70,7 +72,7 @@ export class Navigation extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const hyperlinkSection = document.querySelector('.hyperlink-section');
+        //const hyperlinkSection = document.querySelector('.hyperlink-section');
         //if (hyperlinkSection) bind(hyperlinkSection);
     }
 
@@ -92,7 +94,7 @@ export class Navigation extends React.Component<Props, State> {
                         curMonthObligationPercent = NaN,
                         nextMonthObligationAmount = NaN,
                         nextMonthObligationPercent = NaN;
-                    //console.log("-> helpDetail", data);
+                    console.log("-> helpDetail", data);
                     if (helpDetail.HelpDetailID !== -1) {
                         // TODO: get values for intensions
                         /*
@@ -108,6 +110,7 @@ export class Navigation extends React.Component<Props, State> {
                     that.setState({
                         intentionOwnerFullName: data.UserFullName,
                         intentionOwnerAvatar: data.AvatarBig,
+                        intentionOwnerID: data.UserID,
                         monthIntentionAmount: monthIntentionAmount,
                         monthIntentionCurrency: monthIntentionCurrency,
                         userHelpAmountRequired: userHelpAmountRequired,
@@ -180,6 +183,7 @@ export class Navigation extends React.Component<Props, State> {
             userLoading,
             intentionOwnerFullName,
             intentionOwnerAvatar,
+            intentionOwnerID,
             userStatus,
             userHelpAmountRequired,
             curMonthObligationAmount,
@@ -232,15 +236,23 @@ export class Navigation extends React.Component<Props, State> {
                         </div>
                         <div className='ex-navigation__tag-info'>
                             <p className='item'>
-                                <img src="/Styles/dist/images/icons/coin.png"
-                                     alt="coin"/>
+                                {
+                                    intentionOwnerID===+getUserID()?
+                                        <img src="/Styles/dist/images/icons/coin-dark.png" alt="coin"/>
+                                        :
+                                        <img src="/Styles/dist/images/icons/coin.png" alt="coin"/>
+                                }
                                 {`${getLangValue("MinIntention")} `}
                                 {getCurrencySymbol(tag.MinIntentionCurrencyID)}
                                 {` ${tag.MinIntentionAmount ? tag.MinIntentionAmount : '0'}`}
                             </p>
                             <p className='item'>
-                                <img src="/Styles/dist/images/icons/waiting.png"
-                                     alt="waiting"/>
+                                {
+                                    intentionOwnerID===+getUserID()?
+                                        <img src="/Styles/dist/images/icons/waiting-dark.png" alt="waiting"/>
+                                        :
+                                        <img src="/Styles/dist/images/icons/waiting.png" alt="waiting"/>
+                                }
                                 {tag.Period === Period.Monthly &&
                                 <span>
                                     {` ${getLangValue('Regularly')}`},
@@ -266,8 +278,12 @@ export class Navigation extends React.Component<Props, State> {
                                 }
                             </p>
                             <p className='item hyperlink-section'>
-                                <img src="/Styles/dist/images/icons/hyperlink.png"
-                                     alt="hyperlink"/>
+                                {
+                                    intentionOwnerID===+getUserID()?
+                                        <img src="/Styles/dist/images/icons/hyperlink-dark.png" alt="hyperlink"/>
+                                        :
+                                        <img src="/Styles/dist/images/icons/hyperlink.png" alt="hyperlink"/>
+                                }
                                 {/*<a href={`${window.location.origin}/user?${tag.Owner_UserID ? tag.Owner_UserID : ''}`}>*/}
                                 {/*    {`${window.location.origin}/user?${tag.Owner_UserID ? tag.Owner_UserID : ''}`}*/}
                                 {/*</a>*/}
@@ -285,10 +301,13 @@ export class Navigation extends React.Component<Props, State> {
                 <div className="ex-navigation__item"
                      data-load={"/H2O/UserList?TagID=" + this.props.tagID}
                      data-target="#ex-route-2">
-                    <div className="ex-navigation__title">
-                        <img
-                            src="/Styles/dist/images/icons/relationship.png"
-                            alt="basket"/>
+                    <div className="ex-navigation__title status-free">
+                        {
+                            intentionOwnerID===+getUserID()?
+                                <img src="/Styles/dist/images/icons/relationship-dark.png" alt="relationship"/>
+                                :
+                                <img src="/Styles/dist/images/icons/relationship.png" alt="relationship"/>
+                        }
                         <p>{getLangValue("UserInitiatives")}</p>
                     </div>
                 </div>
@@ -326,8 +345,14 @@ export class Navigation extends React.Component<Props, State> {
                 <div className="ex-navigation__item"
                     data-load={"/Tag/PaymentDetails?TagID=" + this.props.tagID}
                     data-target="#ex-route-2">
-                    <div className="ex-navigation__title">
-                        <i className="icons-card ex-navigation__icon"></i>
+                    <div className="ex-navigation__title status-free">
+                        {
+                            intentionOwnerID===+getUserID()?
+                                <img src="/Styles/dist/images/icons/credit-card-dark.png" alt="credit-card"/>
+                                :
+                                <img src="/Styles/dist/images/icons/credit-card.png" alt="credit-card"/>
+                        }
+
                         <p>{getLangValue("PaymentDetails")}</p>
                     </div>
                 </div>

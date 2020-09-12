@@ -735,7 +735,10 @@
     <Content Include="Styles\dist\images\icons\arrow-top.svg" />
     <Content Include="Styles\dist\images\icons\bell.svg" />
     <Content Include="Styles\dist\images\icons\card.svg" />
+    <Content Include="Styles\dist\images\icons\coin-dark.png" />
     <Content Include="Styles\dist\images\icons\coin.png" />
+    <Content Include="Styles\dist\images\icons\credit-card-dark.png" />
+    <Content Include="Styles\dist\images\icons\credit-card.png" />
     <Content Include="Styles\dist\images\icons\deleteBasket.png" />
     <Content Include="Styles\dist\images\icons\dispatcher-icon.png" />
     <Content Include="Styles\dist\images\icons\dispatcher.png" />
@@ -749,11 +752,13 @@
     <Content Include="Styles\dist\images\icons\gear.svg" />
     <Content Include="Styles\dist\images\icons\hash.svg" />
     <Content Include="Styles\dist\images\icons\home.svg" />
+    <Content Include="Styles\dist\images\icons\hyperlink-dark.png" />
     <Content Include="Styles\dist\images\icons\hyperlink.png" />
     <Content Include="Styles\dist\images\icons\in.png" />
     <Content Include="Styles\dist\images\icons\info.svg" />
     <Content Include="Styles\dist\images\icons\logout.svg" />
     <Content Include="Styles\dist\images\icons\person.svg" />
+    <Content Include="Styles\dist\images\icons\relationship-dark.png" />
     <Content Include="Styles\dist\images\icons\relationship.png" />
     <Content Include="Styles\dist\images\icons\search.png" />
     <Content Include="Styles\dist\images\icons\search.svg" />
@@ -767,6 +772,7 @@
     <Content Include="Styles\dist\images\icons\tag.svg" />
     <Content Include="Styles\dist\images\icons\two-persons.svg" />
     <Content Include="Styles\dist\images\icons\vk.png" />
+    <Content Include="Styles\dist\images\icons\waiting-dark.png" />
     <Content Include="Styles\dist\images\icons\waiting.png" />
     <Content Include="Styles\dist\images\ico_h20.ai" />
     <Content Include="Styles\dist\images\ico_h20.svg" />
@@ -972,6 +978,7 @@
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\Home\TokenAction.cshtml" />
+    <Content Include="Views\Partial\Tag\PaymentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
