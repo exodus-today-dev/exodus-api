@@ -1,0 +1,190 @@
+﻿[DATE] [12 Oct 2020 23:29:16]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:29:16]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:42:01]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:42:01]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:44:22]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:44:22]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:45:36]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Action [LocalizationUpdate] Not Found in controller [ExodusAdmin] 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+Exodus.Exceptions.ExodusException: Action [LocalizationUpdate] Not Found in controller [ExodusAdmin]
+[DATE] [12 Oct 2020 23:45:36]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Action [LocalizationUpdate] Not Found in controller [ExodusAdmin] 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+Exodus.Exceptions.ExodusException: Action [LocalizationUpdate] Not Found in controller [ExodusAdmin]
+[DATE] [12 Oct 2020 23:45:54]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+[DATE] [12 Oct 2020 23:45:54]  
+[MESSAGE] USER: Артём Покатилов[70]MESSAGE: Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController. 
+[EXEPTION] exeption 
+[FILE] Exodus.Log4Net.Logger.Write_Error(e:\Work\Exodus\exodus-api\Exodus\Log4Net\Logger.cs:56) 
+[IN] Write_Error 
+ --------------------------------------------  
+System.Web.HttpException (0x80004005): Контроллер для пути "/Scripts/current-device.min.js.map" не найден или не реализует интерфейс IController.
+   в System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   в System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   в System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.<>c__DisplayClass285_0.<ExecuteStepImpl>b__0()
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.StepInvoker.<>c__DisplayClass4_0.<Invoke>b__0()
+   в Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule.OnExecuteRequestStep(HttpContextBase context, Action step)
+   в System.Web.HttpApplication.<>c__DisplayClass284_0.<OnExecuteRequestStep>b__0(Action nextStepAction)
+   в System.Web.HttpApplication.StepInvoker.Invoke(Action executionStep)
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)

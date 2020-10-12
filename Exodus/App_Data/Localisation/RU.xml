@@ -30,6 +30,7 @@
   <word key="UnknownError" value="Непредвиденная ошибка"></word>
   <word key="UnknownServerError" value="Непредвиденная ошибка сервера"></word>
   <word key="Members" value="Участники"></word>
+  <word key="SelectedMembers" value="Выбранные Участники"></word>
   <word key="Notifications" value="Уведомления"></word>
   <word key="Transactions" value="Транзакции"></word>
   <word key="Reports" value="Отчеты"></word>
@@ -183,6 +184,7 @@
   <word key="CountIntentionsInFavor" value="Считать намерения в пользу"></word>
   <word key="Me" value="Меня"></word>
   <word key="CreateTag" value="Создать Тег"></word>
+  <word key="Creator" value="Создатель"></word>
   <word key="Once" value="Единоразовый"></word>
   <word key="Currency" value="Валюта"></word>
   <word key="ObligationHolder" value="Держатель обязательства"></word>
@@ -328,6 +330,7 @@
   <word key="AmountRange" value="Сумма (диапазон"></word>
   <word key="DesiredFinalDateOfPerformance" value="Желаемая конечная дата исполнения обязательства"></word>
   <word key="SendRequest" value="Отправить запрос"></word>
+  <word key="SendInvitations" value="Отправить приглашения"></word>
   <word key="Close" value="Закрыть"></word>
 
   <word key="AllNotifications" value="Все уведомления"></word>

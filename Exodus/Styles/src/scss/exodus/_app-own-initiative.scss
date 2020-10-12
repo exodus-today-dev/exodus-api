@@ -1,5 +1,5 @@
 .own-initiative-area .ex-panel__content th {
-    min-height: 35px;
+  min-height: 35px;
 }
 
 /*.own-initiative-area .ex-panel__content th,
@@ -8,11 +8,218 @@
 }*/
 
 .own-initiative-area .ex-panel__content td.bg-light-green {
-    background: rgb(229, 252, 185);
+  background: rgb(229, 252, 185);
 }
 
 .own-initiative-area .ex-panel__content .btn[data-selected="true"] {
-    background: #459edb;
-    color:  #fff;
+  background: #459edb;
+  color: #fff;
 }
 
+.ex-navigation[data-react^="/OwnInitiative/Navigation"] {
+  background-color: #3b3b3b;
+
+  & .ex-navigation__own-initiative {
+    background: #3b3b3b;
+
+    & .ex-navigation__info {
+      padding-bottom: 30px;
+      padding-top: 30px;
+      height: auto;
+
+      & h4{
+        color: white;
+      }
+      & p{
+        color: #AFAFAF;
+      }
+
+      & .ex-navigation__circle-diagram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+
+        & .avatar {
+          position: absolute;
+          border-radius: 50%;
+        }
+
+        & .required {
+          position: absolute;
+          border-radius: 50%;
+          border: 1px solid $gray-300;
+          //background: #4d4d4d;
+          background: #ffffff;
+          z-index: 1;
+        }
+
+        & .diagram {
+          position: relative;
+
+          & .required {
+            position: absolute;
+            border-radius: 50%;
+            //background: #4d4d4d;
+            background: #ffffff;
+            z-index: 1;
+          }
+
+          & .collected {
+            position: absolute;
+            z-index: 3;
+          }
+
+          & .expected {
+            position: absolute;
+            z-index: 2;
+          }
+
+          & .month {
+            position: absolute;
+            z-index: 4;
+            background: #3b3b3b;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & .avatar {
+              position: absolute;
+              border-radius: 50%;
+            }
+
+            & span {
+              font-size: 18px;
+              color: #d9d9d9;
+            }
+          }
+        }
+
+      }
+
+    }
+
+    & .ex-navigation__item.active {
+      background-color: #2d2d2d;
+      border-top: 1px solid #4f4f4f;
+      border-bottom: 1px solid #4f4f4f;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      &:before,
+      &:after{
+        border: none;
+      }
+      & p{
+        line-height: 25px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        & img{
+          margin-right: 15px;
+          //vertical-align: text-top;
+        }
+      }
+      & .total-mine{
+        color: #FFFFFF;
+      }
+      & .expected-mine{
+        color: #B4B4B4;
+      }
+      & .left-mine{
+        color: #B4B4B4;
+      }
+      & .green-status{
+        color: $green;
+      }
+      & .yellow-status{
+        color: $yellow;
+      }
+      & .red-status{
+        color: $red;
+      }
+
+    }
+
+    & .ex-navigation__item:last-child:after {
+      border: none;
+    }
+
+    & .ex-navigation__item:last-child:before {
+      border: none;
+    }
+
+    .own-info{
+      padding-top: 30px;
+      padding-left: 40px;
+      & p{
+        color: $gray-600;
+        line-height: 25px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        & img{
+          margin-right: 15px;
+        }
+        & a{
+          color: $gray-600;
+        }
+      }
+      & .share{
+        color: $gray-500;
+        & a{
+          margin-left: 10px;
+          margin-right: 0px;
+          & img{
+            margin-right: 0px;
+            height: 27px;
+            border-radius: 20%;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+
+.ex-navigation[data-react^="/OwnInitiative/Navigation"].mine {
+  background-color: white;
+
+  & .ex-navigation__own-initiative {
+
+    & .ex-navigation__info {
+      & h4{
+        color: black;
+      }
+      & .ex-navigation__circle-diagram {
+
+      }
+    }
+
+    & .ex-navigation__item.active {
+      background-color: #F6F6F6;
+      border-bottom: $gray-500;
+      border-top: $gray-500;
+      & .total-mine{
+        color: black;
+      }
+      & .expected-mine{
+        color: $gray-600;
+      }
+      & .left-mine{
+        color: $gray-600;
+      }
+
+
+    }
+    .own-info{
+      background-color: white;
+      & .share{
+        color: $gray-700;
+
+      }
+    }
+
+  }
+}

@@ -10,8 +10,7 @@ interface Props {
     tag: {
         DefaultIntentionOwner: { UserStatus: number },
     },
-
-    updateFundsInfo(): any,
+   // updateFundsInfo(): any,
 
     obligationDelete(ObligationID: number): any,
 
@@ -27,6 +26,21 @@ export class TagMembersTable extends React.Component<Props> {
         super(props);
         this.curUserID = +getUserID();
     }
+
+    // async onConvertClick(ID: number) {
+    //     await this.props.convertIntentionToObligation(ID);
+    //     await this.props.updateFundsInfo()
+    // }
+    //
+    // async onDeleteIntentionClick(ID: number) {
+    //     await this.props.intentionDelete(ID)
+    //     await this.props.updateFundsInfo()
+    // }
+    //
+    // async onDeleteObligationClick(ID: number) {
+    //     await this.props.obligationDelete(ID);
+    //     await this.props.updateFundsInfo()
+    // }
 
     render() {
         let {intentions, obligations, isIntentionsData, isObligationsData} = this.props
@@ -72,25 +86,29 @@ export class TagMembersTable extends React.Component<Props> {
 
         let tagMembersTable = tagMembers.map((tagMember, index) => {
                 if (tagMember.isActive) return (
-                    <tr key={tagMember.userID + index}
+                    <tr key={'a' + tagMember.userID + index}
                         className={tagMember.userID == this.curUserID ?
-                            `tag-member my-intention ${getUserStatusClassname(this.props.tag.DefaultIntentionOwner.UserStatus)}`
+                            `tag-member my-intention ${getUserStatusClassname(
+                                Object.keys(this.props.tag).length > 0 ?
+                                    this.props.tag.DefaultIntentionOwner.UserStatus : 1)}`
                             :
-                            `tag-member ${getUserStatusClassname(this.props.tag.DefaultIntentionOwner.UserStatus)}`}>
-                        <td key={`${tagMember.userID + index}0`}
+                            `tag-member ${getUserStatusClassname(
+                                Object.keys(this.props.tag).length > 0 ?
+                                    this.props.tag.DefaultIntentionOwner.UserStatus : 1)}`}>
+                        <td key={`${'a' + tagMember.userID + index}0`}
                             className='member-avatar'>
                             <img
                                 src={tagMember.avatar}
                                 alt="img"/>
                         </td>
-                        <td key={`${tagMember.userID + index}1`}
+                        <td key={`${'a' + tagMember.userID + index}1`}
                             className='member-name'>
                             <span>{tagMember.name}</span><br/>
                             <span>{tagMember.surname}</span>
                             {/*tagMember.userID == this.curUserID ?
                                 <span> ({getLangValue("IAm").toLowerCase()})</span> : null*/}
                         </td>
-                        <td key={`${tagMember.userID + index}2`}
+                        <td key={`${'a' + tagMember.userID + index}2`}
                             className='member-intention'
                         >
                             {tagMember.intentionAmount ?
@@ -106,7 +124,7 @@ export class TagMembersTable extends React.Component<Props> {
                                     null
                             }
                         </td>
-                        <td key={`${tagMember.userID + index}3`}
+                        <td key={`${'a' + tagMember.userID + index}3`}
                             className='member-intention'
                         >
                             {tagMember.obligationAmount ?
@@ -116,11 +134,8 @@ export class TagMembersTable extends React.Component<Props> {
                                 </div> :
                                 tagMember.userID == this.curUserID ?
                                     <button className='convert btn btn-link'
-                                            onClick={() => {
-                                                this.props.convertIntentionToObligation(tagMember.intentionID);
-                                                this.props.updateFundsInfo()
-                                            }
-                                            }
+                                            onClick={() =>
+                                                this.props.convertIntentionToObligation(tagMember.intentionID)}
                                     >
                                         {getLangValue("ConvertToObligation")}
                                     </button>
@@ -130,7 +145,7 @@ export class TagMembersTable extends React.Component<Props> {
 
                         </td>
                         {tagMember.userID == this.curUserID ?
-                            <td key={`${tagMember.userID + index}4`}
+                            <td key={`${'a' + tagMember.userID + index}4`}
                                 className='delete-basket'>
                                 <button
                                     className='btn btn-link'
@@ -140,7 +155,7 @@ export class TagMembersTable extends React.Component<Props> {
                                                 this.props.obligationDelete(tagMember.obligationID)
                                                 :
                                                 this.props.intentionDelete(tagMember.intentionID)
-                                            this.props.updateFundsInfo();
+
                                         }
                                     }
                                 >
@@ -150,7 +165,7 @@ export class TagMembersTable extends React.Component<Props> {
                                 </button>
                             </td>
                             :
-                            <td key={`${tagMember.userID + index}4`}
+                            <td key={`${'a' + tagMember.userID + index}4`}
                                 className='delete-basket'>
                             </td>
                         }

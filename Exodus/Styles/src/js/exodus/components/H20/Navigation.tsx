@@ -11,14 +11,19 @@ import {
 import {getOnDayOfWeek} from "../../global";
 import {TagRole, Status as UserStatus, Period} from '../../enums';
 import {bind} from '../../load';
+import {observer} from "mobx-react";
+import {linkStore} from "../../stores/LinkStore";
+
 
 const moment = require('moment');
 import {getLang} from "../../global";
 import {isNull} from "util";
 
+
 interface Props {
     defaultIntentionOwnerID: Number;
     tagID: Number;
+    store: any;
 }
 
 interface State {
@@ -41,7 +46,8 @@ interface State {
     isActive:boolean;
 }
 
-export class Navigation extends React.Component<Props, State> {
+@observer
+class NavigationZ extends React.Component<Props, State> {
     tagRole: TagRole;
     allowCopyLink: boolean;
 
@@ -192,6 +198,8 @@ export class Navigation extends React.Component<Props, State> {
             tag,
         } = this.state;
 
+        let{store}=this.props
+
         return (<div onClick={()=>this.checkIsActive()}>
                 <div className="ex-navigation__info" data-loading={userLoading}>
                     <div className="ex-navigation__header">
@@ -219,8 +227,8 @@ export class Navigation extends React.Component<Props, State> {
                         <div className="ex-navigation__circle-diagram">
                             <TagFundsProgressDiagram
                                 required={userHelpAmountRequired}
-                                collected={curMonthObligationAmount}
-                                expected={monthIntentionAmount}
+                                collected={store.obligationsTotalH2o}
+                                expected={store.intentionsTotalH2o}
                                 month={moment.months(moment().month())}
                                 width={130}
                                 userStatus={userStatus}
@@ -228,9 +236,9 @@ export class Navigation extends React.Component<Props, State> {
                             <div className='diagram-description'>
                                 <p className='total'>{getLangValue('Funds.Total')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {userHelpAmountRequired ? userHelpAmountRequired : '0'}</b>
                                 </p>
-                                <p className={'collected ' + getUserStatusClassname(userStatus)}>{getLangValue('Funds.Collected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {curMonthObligationAmount ? curMonthObligationAmount : '0'}</b>
+                                <p className={'collected ' + getUserStatusClassname(userStatus)}>{getLangValue('Funds.Collected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {store.obligationsTotalH2o}</b>
                                 </p>
-                                <p className='expected'>{getLangValue('Funds.Expected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {monthIntentionAmount ? monthIntentionAmount : '0'}</b>
+                                <p className='expected'>{getLangValue('Funds.Expected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {store.intentionsTotalH2o}</b>
                                 </p>
                             </div>
                         </div>
@@ -373,3 +381,15 @@ export class Navigation extends React.Component<Props, State> {
     }
 }
 
+export class Navigation extends React.Component<Props, State> {
+    render() {
+        return (
+            <NavigationZ
+                tagID={this.props.tagID}
+                defaultIntentionOwnerID={this.props.defaultIntentionOwnerID}
+                store={linkStore}
+            />
+
+        )
+    }
+}

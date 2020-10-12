@@ -1,5 +1,6 @@
 .ex-navigation {
   background-color: $white;
+ // background-color: #3b3b3b;
 
   @extend .ex-grid_1-0-0;
 
@@ -87,13 +88,13 @@
 
   & .ex-navigation__item{
     &:after{
-      background-color: #1D1D1D;
+      //background-color: #1D1D1D;
     }
   }
 
   & .ex-navigation__item.active{
     &:after{
-      border-color: #1D1D1D;
+      //border-color: #1D1D1D;
     }
   }
 

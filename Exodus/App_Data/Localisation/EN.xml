@@ -30,6 +30,7 @@
   <word key="UnknownError" value="Unknown error"></word>
   <word key="UnknownServerError" value="Unknown server error"></word>
   <word key="Members" value="Members"></word>
+  <word key="SelectedMembers" value="Selected members"></word>
   <word key="Notifications" value="Notification"></word>
   <word key="Transactions" value="Transactions"></word>
   <word key="Reports" value="Reports"></word>
@@ -75,6 +76,7 @@
   <word key="Description" value="Description"></word>
   <word key="IAmOk" value="I Am Ok"></word>
   <word key="CreateNewTag" value="Create new tag"></word>
+  <word key="Creator" value="Creator"></word>
   <word key="NewTag" value="New tag"></word>
   <word key="Show" value="Show"></word>
   <word key="Hide" value="Hide"></word>
@@ -329,6 +331,7 @@
   <word key="AmountRange" value="Amount (range"></word>
   <word key="DesiredFinalDateOfPerformance" value="Desired final date of performance"></word>
   <word key="SendRequest" value="Send request"></word>
+  <word key="SendInvitations" value="Send invitations"></word>
   <word key="Close" value="Close"></word>
 
   <word key="AllNotifications" value="All notifications"></word>

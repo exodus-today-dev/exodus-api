@@ -4,14 +4,15 @@ interface Props {
     required: number,
     collected: number,
     expected: number,
-    month: string,
+    month?: string,
+    avatar?: string,
     width: number,
     userStatus?: number,
 }
 
 export class TagFundsProgressDiagram extends React.Component<Props> {
     render() {
-        let {width, collected, required, expected, month} = this.props
+        let {width, collected, required, expected, month, avatar} = this.props
         const half = width / 2
         let coll,
             exp,
@@ -48,16 +49,23 @@ export class TagFundsProgressDiagram extends React.Component<Props> {
             width: `${width / 1.548}px`
         }
 
-        const {userStatus}=this.props
+        const avatarStyle = {
+            top: `${width / 10}px`,
+            left: `${width / 10}px`,
+            height: `${+monthStyle.height.split('px')[0] - width / 5}px`,
+            width: `${+monthStyle.width.split('px')[0] - width / 5}px`,
+        }
+
+        const {userStatus} = this.props
 
         return (
             <div className='diagram'
                  style={widthStyle}>
                 <div className='required'
-                     style={widthStyle}> </div>
+                     style={widthStyle}></div>
                 <svg className='collected'
                      style={widthStyle}>
-                    <path fill={userStatus===3? '#fd6721': userStatus===2? '#ffc517': '#67971a' } d={coll}/>
+                    <path fill={userStatus === 3 ? '#fd6721' : userStatus === 2 ? '#ffc517' : '#67971a'} d={coll}/>
                 </svg>
                 <svg className='expected'
                      style={widthStyle}>
@@ -65,7 +73,13 @@ export class TagFundsProgressDiagram extends React.Component<Props> {
                 </svg>
                 <div className='month'
                      style={monthStyle}>
-                    <span> {monthUpper} </span>
+                    {month && <span> {monthUpper} </span>}
+                    {avatar && <img
+                        src={avatar}
+                        className='avatar'
+                        style={avatarStyle}>
+
+                    </img>}
                 </div>
             </div>
         )

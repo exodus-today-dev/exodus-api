@@ -6,7 +6,8 @@ import {
     getLangValue,
     getUserID,
     getApiKey,
-    getCurrencySymbol
+    getCurrencySymbol,
+    getScrollWidth
 } from './../../global';
 import {AccessType, TagRole} from '../../enums';
 import {AddIntentionToApplication} from '../Shared/AddIntentionToApplication';
@@ -17,10 +18,13 @@ import {notify} from '../Shared/Notifications';
 import {InviteUserToTag} from "../Shared/InviteUserToTag";
 import {TagMembersTable} from "./TagMembersTable";
 import {TagTotalTable} from "./TagTotalTable";
+import {linkStore} from "../../stores/LinkStore";
+import {observer} from "mobx-react";
 
 interface Props {
     tagID: Number;
     tagRole: TagRole;
+    store: any;
 }
 
 interface State {
@@ -39,9 +43,11 @@ interface State {
     showIntentions: boolean;
     showObligations: boolean;
     indicatorDataReady: number;
+    isTablesShow: boolean;
 }
 
-export class H2OApplication extends React.Component<Props, State> {
+@observer
+class H2OApplicationZ extends React.Component<Props, State> {
     userID: any;
     tagRole: TagRole;
 
@@ -58,6 +64,7 @@ export class H2OApplication extends React.Component<Props, State> {
             intentionEdit: false,
             isIntentionsData: false,
             isObligationsData: false,
+            isTablesShow: true,
             loading: false,
             loadingDetails: false,
             showIntentions: false,
@@ -76,10 +83,8 @@ export class H2OApplication extends React.Component<Props, State> {
         this.onObligationsInfoClick = this.onObligationsInfoClick.bind(this);
         this.obligationDelete = this.obligationDelete.bind(this);
         this.intentionDelete = this.intentionDelete.bind(this);
-        this.getScrollWidth = this.getScrollWidth.bind(this);
-    }
-
-    componentDidMount() {
+        this.convertIntentionToObligation = this.convertIntentionToObligation.bind(this);
+        this.setIsTablesShow=this.setIsTablesShow.bind(this)
     }
 
     componentWillMount() {
@@ -95,7 +100,6 @@ export class H2OApplication extends React.Component<Props, State> {
                 });
             });
     }
-
 
     getFundsInfo() {
         // fill current and next months intentions, funds and obligations
@@ -116,11 +120,29 @@ export class H2OApplication extends React.Component<Props, State> {
                     fetch('/api/Obligation/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
                         .then(response => response.json())
                         .then(json => {
+                            let obligations = json.Data,
+                                grandTotalAmount = 0;
+
+                            obligations.forEach((item: any) => {
+                                grandTotalAmount += item.AmountTotal;
+                            });
+
+                            this.props.store.setObligationsTotalH2o(grandTotalAmount)
                             that.setState({obligations: json.Data, isObligationsData: true});
                         });
                     fetch('/api/Intention/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
                         .then(response => response.json())
                         .then(json => {
+                            let intentions = json.Data,
+                                grandTotalAmount = 0;
+
+                            intentions.forEach((item: any) => {
+                                grandTotalAmount += item.IntentionAmount;
+                            });
+
+                            this.props.store.setIntentionsTotalH2o(grandTotalAmount)
+
+
                             that.setState({
                                 intentions: json.Data,
                                 loading: false,
@@ -134,40 +156,40 @@ export class H2OApplication extends React.Component<Props, State> {
             });
 
         // take values for indicators
-        let ownerUserID = this.state.tag.Owner_UserID;
-        fetch('/api/AppH2O/Obligations_ByUserID_CurrentMonth?UserID=' + ownerUserID, {
-            credentials: 'include',
-            method: "post"
-        })
-            .then(response => response.json())
-            .then(json => {
-                that.setState({
-                    completedCurMonth: json.Data,
-                    indicatorDataReady: that.state.indicatorDataReady + 1
-                });
-            });
-
-        fetch('/api/AppH2O/Intentions_ByUserID_CurrentMonth?UserID=' + ownerUserID, {
-            credentials: 'include',
-            method: "post"
-        })
-            .then(response => response.json())
-            .then(json => {
-                that.setState({
-                    expectedCurMonth: json.Data,
-                    indicatorDataReady: that.state.indicatorDataReady + 1
-                });
-            });
-
-        let nextMonth = moment().add(1, 'month');
-        fetch('/api/AppH2O/Intentions_ByUserID_n_Month?UserID=' + ownerUserID + '&year=' + nextMonth.year() + '&month=' + nextMonth.month(), {
-            credentials: 'include',
-            method: "post"
-        })
-            .then(response => response.json())
-            .then(json => {
-                that.setState({expectedNextMonth: json.Data});
-            });
+        // let ownerUserID = this.state.tag.Owner_UserID;
+        // fetch('/api/AppH2O/Obligations_ByUserID_CurrentMonth?UserID=' + ownerUserID, {
+        //     credentials: 'include',
+        //     method: "post"
+        // })
+        //     .then(response => response.json())
+        //     .then(json => {
+        //         that.setState({
+        //             completedCurMonth: json.Data,
+        //             indicatorDataReady: that.state.indicatorDataReady + 1
+        //         });
+        //     });
+        //
+        // fetch('/api/AppH2O/Intentions_ByUserID_CurrentMonth?UserID=' + ownerUserID, {
+        //     credentials: 'include',
+        //     method: "post"
+        // })
+        //     .then(response => response.json())
+        //     .then(json => {
+        //         that.setState({
+        //             expectedCurMonth: json.Data,
+        //             indicatorDataReady: that.state.indicatorDataReady + 1
+        //         });
+        //     });
+        //
+        // let nextMonth = moment().add(1, 'month');
+        // fetch('/api/AppH2O/Intentions_ByUserID_n_Month?UserID=' + ownerUserID + '&year=' + nextMonth.year() + '&month=' + nextMonth.month(), {
+        //     credentials: 'include',
+        //     method: "post"
+        // })
+        //     .then(response => response.json())
+        //     .then(json => {
+        //         that.setState({expectedNextMonth: json.Data});
+        //     });
     }
 
     afterIntentionAdded() {
@@ -217,6 +239,7 @@ export class H2OApplication extends React.Component<Props, State> {
             })
             .then(res => {
                 if (res.ok) {
+                    this.updateFundsInfo()
                     notify.success(getLangValue("Notification.SuccessfullyDeleted"));
                 } else {
                     notify.error(getLangValue("Error"));
@@ -237,6 +260,7 @@ export class H2OApplication extends React.Component<Props, State> {
             })
             .then(res => {
                 if (res.ok) {
+                    this.updateFundsInfo()
                     notify.success(getLangValue("Notification.SuccessfullyDeleted"));
                 } else {
                     notify.error(getLangValue("Error"));
@@ -244,11 +268,12 @@ export class H2OApplication extends React.Component<Props, State> {
             });
     }
 
-    convertIntentionToObligation = (IntentionID: number) => {
+    convertIntentionToObligation  (IntentionID: number)  {
         fetch(`api/Intention/ToObligation?IntentionID=` + IntentionID, {credentials: 'include'})
             .then(res => {
                 if (res.ok) {
-                    notify.success(getLangValue("Notification.SuccessfullyСonverted"));
+                    this.updateFundsInfo()
+                    notify.success(getLangValue("Notification.IntentionConvertedToObligation"));
                 } else {
                     notify.error(getLangValue("Error"));
                 }
@@ -309,23 +334,10 @@ export class H2OApplication extends React.Component<Props, State> {
             });
     }
 
-    getScrollWidth() {
-        let div = document.createElement('div');
-
-        div.style.overflowY = 'scroll';
-        div.style.width = '50px';
-        div.style.height = '50px';
-
-        document.body.append(div);
-        let scrollWidth = div.offsetWidth - div.clientWidth;
-
-        div.remove();
-
-        return scrollWidth;
-    }
+    setIsTablesShow(bool:boolean){this.setState({isTablesShow:bool}) }
 
     render() {
-        let {tag, isIntentionsData, isObligationsData, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
+        let {tag, isIntentionsData, isObligationsData, isTablesShow, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
         let {tagRole} = this;
         let monthsLeftCaption = "";
 
@@ -365,26 +377,26 @@ export class H2OApplication extends React.Component<Props, State> {
             monthsLeftCaption += ' ' + getLangValue("Pretext.By") + ' ' + intention.IntentionAmount + getCurrencySymbol(intention.CurrencyID);
         }
 
-        const intentionsHead =
-                <thead>
-                <tr>
-                    <th scope="col"
-                        className="shorten-w-30">{getLangValue('User')}</th>
-                    <th scope="col">{getLangValue('Summ')}</th>
-                    {/*
-                        <th scope="col">{getLangValue('Periodicity')}</th>
-                        <th scope="col">{getLangValue('DatePeriod')}</th>
-                        */}
-                    <th scope="col">{getLangValue('Actions')}</th>
-                </tr>
-                </thead>,
-            obligationsHead =
-                <thead>
-                <tr>
-                    <th scope="col">{getLangValue('User')}</th>
-                    <th scope="col">{getLangValue('Summ')}</th>
-                </tr>
-                </thead>
+        // const intentionsHead =
+        //         <thead>
+        //         <tr>
+        //             <th scope="col"
+        //                 className="shorten-w-30">{getLangValue('User')}</th>
+        //             <th scope="col">{getLangValue('Summ')}</th>
+        //             {/*
+        //                 <th scope="col">{getLangValue('Periodicity')}</th>
+        //                 <th scope="col">{getLangValue('DatePeriod')}</th>
+        //                 */}
+        //             <th scope="col">{getLangValue('Actions')}</th>
+        //         </tr>
+        //         </thead>,
+        //     obligationsHead =
+        //         <thead>
+        //         <tr>
+        //             <th scope="col">{getLangValue('User')}</th>
+        //             <th scope="col">{getLangValue('Summ')}</th>
+        //         </tr>
+        //         </thead>
 
         //test---------------
         //tagRole = TagRole.None;
@@ -395,10 +407,16 @@ export class H2OApplication extends React.Component<Props, State> {
                     <div className="ex-list ex-grid_0-1-1"
                          data-loading={!isObligationsData && !isIntentionsData}
                     >
-                        <div className='tag-invite-members-container_wrapper'>
-                            <InviteUserToTag tagID={this.props.tagID} />
+                        <div className='tag-invite-members-container_wrapper'
+                             style={{marginRight: `${getScrollWidth()}px`}}
+                        >
+                            <InviteUserToTag
+                                tagID={this.props.tagID}
+                                setIsTablesShow={this.setIsTablesShow}
+                                isTablesShow={isTablesShow}
+                            />
                         </div>
-                        <div className='tag-members-table_wrapper'>
+                        <div className={isTablesShow?'tag-members-table_wrapper':'tag-members-table_wrapper disabled-tag-table'}>
                             <TagMembersTable
                                 isIntentionsData={isIntentionsData}
                                 isObligationsData={isObligationsData}
@@ -406,7 +424,7 @@ export class H2OApplication extends React.Component<Props, State> {
                                 obligations={obligations}
                                 intentionDelete={this.intentionDelete}
                                 obligationDelete={this.obligationDelete}
-                                updateFundsInfo={this.updateFundsInfo}
+                               // updateFundsInfo={this.updateFundsInfo}
                                 convertIntentionToObligation={this.convertIntentionToObligation}
                                 tag={tag}
                             />
@@ -414,8 +432,8 @@ export class H2OApplication extends React.Component<Props, State> {
 
                         {
                             Object.keys(tag).length > 0 &&
-                            <div className='tag-total-table_wrapper'
-                                style={{marginRight: `${this.getScrollWidth()}px`}}>
+                            <div className={isTablesShow?'tag-total-table_wrapper':'tag-total-table_wrapper disabled-tag-table'}
+                                style={{marginRight: `${getScrollWidth()}px`}}>
                                 <TagTotalTable
                                     intentions={intentions}
                                     obligations={obligations}
@@ -658,5 +676,19 @@ export class H2OApplication extends React.Component<Props, State> {
                 {/*</div>*/}
 
             </div>);
+    }
+}
+
+export class H2OApplication extends React.Component<Props, State> {
+    render() {
+        return (
+
+            <H2OApplicationZ
+                tagID={this.props.tagID}
+                tagRole={this.props.tagRole}
+                store={linkStore}
+            />
+
+        )
     }
 }

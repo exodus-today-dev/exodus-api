@@ -10,6 +10,21 @@ register('#LinkButton', linkButton);
 register(".main-menu-open-button", loadMainPage);
 register(".main-menu-close-button", closeMainPage);
 
+export function getScrollWidth() {
+    let div = document.createElement('div');
+
+    div.style.overflowY = 'scroll';
+    div.style.width = '50px';
+    div.style.height = '50px';
+
+    document.body.append(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+
+    div.remove();
+
+    return scrollWidth;
+}
+
 function closeMainPage(element){
     { element.addEventListener('click', closeMain);}    
 }
