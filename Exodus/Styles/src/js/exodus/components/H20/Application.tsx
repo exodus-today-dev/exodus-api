@@ -84,28 +84,33 @@ class H2OApplicationZ extends React.Component<Props, State> {
         this.obligationDelete = this.obligationDelete.bind(this);
         this.intentionDelete = this.intentionDelete.bind(this);
         this.convertIntentionToObligation = this.convertIntentionToObligation.bind(this);
-        this.setIsTablesShow=this.setIsTablesShow.bind(this)
+        this.setIsTablesShow = this.setIsTablesShow.bind(this)
     }
 
     componentWillMount() {
         let that = this;
+        this.props.store.setIntentionsTotal(0)
+        this.props.store.setObligationsTotal(0)
 
         // take tag information
-        fetch('/api/Tag/Get_ByID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
-            .then(response => response.json())
-            .then(json => {
-               // console.log(json.Data)
-                that.setState({tag: json.Data}, () => {
-                    that.getFundsInfo();
-                });
-            });
+        // fetch('/api/Tag/Get_ByID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
+        //     .then(response => response.json())
+        //     .then(json => {
+        //        // console.log(json.Data)
+        //         that.setState({tag: json.Data}, () => {
+        //             that.getFundsInfo();
+        //         });
+        //     });
+
+        that.getFundsInfo();
     }
 
     getFundsInfo() {
         // fill current and next months intentions, funds and obligations
         let that = this;
 
-        that.setState({loading: true,
+        that.setState({
+            loading: true,
             isIntentionsData: false,
             isObligationsData: false,
         });
@@ -127,7 +132,7 @@ class H2OApplicationZ extends React.Component<Props, State> {
                                 grandTotalAmount += item.AmountTotal;
                             });
 
-                            this.props.store.setObligationsTotalH2o(grandTotalAmount)
+                            this.props.store.setObligationsTotal(grandTotalAmount)
                             that.setState({obligations: json.Data, isObligationsData: true});
                         });
                     fetch('/api/Intention/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
@@ -140,7 +145,7 @@ class H2OApplicationZ extends React.Component<Props, State> {
                                 grandTotalAmount += item.IntentionAmount;
                             });
 
-                            this.props.store.setIntentionsTotalH2o(grandTotalAmount)
+                            this.props.store.setIntentionsTotal(grandTotalAmount)
 
 
                             that.setState({
@@ -268,7 +273,7 @@ class H2OApplicationZ extends React.Component<Props, State> {
             });
     }
 
-    convertIntentionToObligation  (IntentionID: number)  {
+    convertIntentionToObligation(IntentionID: number) {
         fetch(`api/Intention/ToObligation?IntentionID=` + IntentionID, {credentials: 'include'})
             .then(res => {
                 if (res.ok) {
@@ -334,12 +339,15 @@ class H2OApplicationZ extends React.Component<Props, State> {
             });
     }
 
-    setIsTablesShow(bool:boolean){this.setState({isTablesShow:bool}) }
+    setIsTablesShow(bool: boolean) {
+        this.setState({isTablesShow: bool})
+    }
 
     render() {
-        let {tag, isIntentionsData, isObligationsData, isTablesShow, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
+        let {isIntentionsData, isObligationsData, isTablesShow, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
         let {tagRole} = this;
         let monthsLeftCaption = "";
+        let tag=this.props.store.tag
 
         //console.log("-> intentions", intentions);
         // console.log("-> ownIntentions", ownIntentions);
@@ -416,7 +424,8 @@ class H2OApplicationZ extends React.Component<Props, State> {
                                 isTablesShow={isTablesShow}
                             />
                         </div>
-                        <div className={isTablesShow?'tag-members-table_wrapper':'tag-members-table_wrapper disabled-tag-table'}>
+                        <div
+                            className={isTablesShow ? 'tag-members-table_wrapper' : 'tag-members-table_wrapper disabled-tag-table'}>
                             <TagMembersTable
                                 isIntentionsData={isIntentionsData}
                                 isObligationsData={isObligationsData}
@@ -424,7 +433,7 @@ class H2OApplicationZ extends React.Component<Props, State> {
                                 obligations={obligations}
                                 intentionDelete={this.intentionDelete}
                                 obligationDelete={this.obligationDelete}
-                               // updateFundsInfo={this.updateFundsInfo}
+                                // updateFundsInfo={this.updateFundsInfo}
                                 convertIntentionToObligation={this.convertIntentionToObligation}
                                 tag={tag}
                             />
@@ -432,7 +441,8 @@ class H2OApplicationZ extends React.Component<Props, State> {
 
                         {
                             Object.keys(tag).length > 0 &&
-                            <div className={isTablesShow?'tag-total-table_wrapper':'tag-total-table_wrapper disabled-tag-table'}
+                            <div
+                                className={isTablesShow ? 'tag-total-table_wrapper' : 'tag-total-table_wrapper disabled-tag-table'}
                                 style={{marginRight: `${getScrollWidth()}px`}}>
                                 <TagTotalTable
                                     intentions={intentions}

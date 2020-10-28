@@ -84,12 +84,16 @@ interface State {
 
     componentWillMount() {
         let that = this;
+
+        this.props.store.setIntentionsTotal(0)
+        this.props.store.setObligationsTotal(0)
+
         // take tag information
-        fetch('/api/Tag/Get_ByID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
-            .then(response => response.json())
-            .then(json => {
-                that.setState({tag: json.Data});
-            });
+        // fetch('/api/Tag/Get_ByID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
+        //     .then(response => response.json())
+        //     .then(json => {
+        //         that.setState({tag: json.Data});
+        //     });
 
         this.getIntentionsInfo();
 
@@ -279,8 +283,9 @@ interface State {
         //             </tr>
         //         </thead>
 
-        let {tag, intentions, obligations,isTablesShow, isObligationsData, isIntentionsData, intentionType, fundsCollected, fundsExpected, currentTab} = this.state;
+        let { intentions, obligations,isTablesShow, isObligationsData, isIntentionsData, intentionType, fundsCollected, fundsExpected, currentTab} = this.state;
         let {tagRole} = this;
+        let tag=this.props.store.tag
       //  console.log('************', intentions, obligations, tag)
 
         return (

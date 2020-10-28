@@ -59,6 +59,8 @@ class NavigationN extends React.Component<Props, State> {
     async componentWillMount() {
         await this.updateTagRoleInfo();
 
+        this.props.store.setTag({})
+
         let that = this;
 
         // take tag information
@@ -67,6 +69,7 @@ class NavigationN extends React.Component<Props, State> {
             .then(json => {
                 //   console.log('-----------------', json.Data);
                 that.setState({tag: json.Data});
+                this.props.store.setTag(json.Data)
             });
 
         // this.getIntentionsInfo();

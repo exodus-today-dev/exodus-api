@@ -2,22 +2,20 @@ import * as React from 'react';
 import {TagFundsProgressDiagram} from "./TagFundsProgressDiagram";
 import {
     getApiKey,
+    getCurrencySymbol,
     getLangValue,
     getUserID,
-    getUserStatusDescription,
     getUserStatusClassname,
-    getCurrencySymbol,
+    getUserStatusDescription,
 } from '../../global.js';
 import {getOnDayOfWeek} from "../../global";
-import {TagRole, Status as UserStatus, Period} from '../../enums';
+import {Period, Status as UserStatus, TagRole} from '../../enums';
 import {bind} from '../../load';
 import {observer} from "mobx-react";
 import {linkStore} from "../../stores/LinkStore";
 
 
 const moment = require('moment');
-import {getLang} from "../../global";
-import {isNull} from "util";
 
 
 interface Props {
@@ -85,6 +83,8 @@ class NavigationZ extends React.Component<Props, State> {
     componentWillMount() {
         let that = this
 
+        this.props.store.setTag({})
+
         fetch('/api/User/Get_ByID?UserID=' + this.props.defaultIntentionOwnerID, {credentials: 'include'})
             .then(response => response.json())
             .then((json: any) => {
@@ -94,9 +94,9 @@ class NavigationZ extends React.Component<Props, State> {
                         helpDetail = data.HelpDetail,
                         userHelpAmountRequired = helpDetail.UserHelpAmountRequired,
                         userHelpAmountCurrency = helpDetail.UserHelpAmountCurrency,
-                        monthIntentionAmount = 250,
+                        monthIntentionAmount = 0,
                         monthIntentionCurrency = '',
-                        curMonthObligationAmount = 500,
+                        curMonthObligationAmount = 0,
                         curMonthObligationPercent = NaN,
                         nextMonthObligationAmount = NaN,
                         nextMonthObligationPercent = NaN;
@@ -133,11 +133,11 @@ class NavigationZ extends React.Component<Props, State> {
                 }
             });
 
-        fetch('/api/Intention/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
-            .then(response => response.json())
-            .then((json: any) => {
-                let data = json.Data;
-            });
+        // fetch('/api/Intention/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
+        //     .then(response => response.json())
+        //     .then((json: any) => {
+        //         let data = json.Data;
+        //     });
 
         this.updateTagRoleInfo();
 
@@ -145,8 +145,9 @@ class NavigationZ extends React.Component<Props, State> {
         fetch('/api/Tag/Get_ByID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
             .then(response => response.json())
             .then(json => {
-                // console.log("-> ", json.Data);
+                //console.log("-> ", json.Data);
                 that.setState({tag: json.Data});
+                this.props.store.setTag(json.Data)
             });
 
     }
@@ -200,6 +201,9 @@ class NavigationZ extends React.Component<Props, State> {
 
         let{store}=this.props
 
+        //const isCurUserIntentionOwner=intentionOwnerID===+getUserID()
+        const isCurUserIntentionOwner=tagRole===TagRole.Owner
+
         return (<div onClick={()=>this.checkIsActive()}>
                 <div className="ex-navigation__info" data-loading={userLoading}>
                     <div className="ex-navigation__header">
@@ -227,8 +231,8 @@ class NavigationZ extends React.Component<Props, State> {
                         <div className="ex-navigation__circle-diagram">
                             <TagFundsProgressDiagram
                                 required={userHelpAmountRequired}
-                                collected={store.obligationsTotalH2o}
-                                expected={store.intentionsTotalH2o}
+                                collected={store.obligationsTotal}
+                                expected={store.intentionsTotal}
                                 month={moment.months(moment().month())}
                                 width={130}
                                 userStatus={userStatus}
@@ -236,16 +240,16 @@ class NavigationZ extends React.Component<Props, State> {
                             <div className='diagram-description'>
                                 <p className='total'>{getLangValue('Funds.Total')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {userHelpAmountRequired ? userHelpAmountRequired : '0'}</b>
                                 </p>
-                                <p className={'collected ' + getUserStatusClassname(userStatus)}>{getLangValue('Funds.Collected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {store.obligationsTotalH2o}</b>
+                                <p className={'collected ' + getUserStatusClassname(userStatus)}>{getLangValue('Funds.Collected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {store.obligationsTotal}</b>
                                 </p>
-                                <p className='expected'>{getLangValue('Funds.Expected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {store.intentionsTotalH2o}</b>
+                                <p className='expected'>{getLangValue('Funds.Expected')}: <b>{getCurrencySymbol(userHelpAmountCurrency)} {store.intentionsTotal}</b>
                                 </p>
                             </div>
                         </div>
                         <div className='ex-navigation__tag-info'>
                             <p className='item'>
                                 {
-                                    intentionOwnerID===+getUserID()?
+                                    isCurUserIntentionOwner?
                                         <img src="/Styles/dist/images/icons/coin-dark.png" alt="coin"/>
                                         :
                                         <img src="/Styles/dist/images/icons/coin.png" alt="coin"/>
@@ -256,7 +260,7 @@ class NavigationZ extends React.Component<Props, State> {
                             </p>
                             <p className='item'>
                                 {
-                                    intentionOwnerID===+getUserID()?
+                                    isCurUserIntentionOwner?
                                         <img src="/Styles/dist/images/icons/waiting-dark.png" alt="waiting"/>
                                         :
                                         <img src="/Styles/dist/images/icons/waiting.png" alt="waiting"/>
@@ -287,7 +291,7 @@ class NavigationZ extends React.Component<Props, State> {
                             </p>
                             <p className='item hyperlink-section'>
                                 {
-                                    intentionOwnerID===+getUserID()?
+                                    isCurUserIntentionOwner?
                                         <img src="/Styles/dist/images/icons/hyperlink-dark.png" alt="hyperlink"/>
                                         :
                                         <img src="/Styles/dist/images/icons/hyperlink.png" alt="hyperlink"/>
@@ -311,7 +315,7 @@ class NavigationZ extends React.Component<Props, State> {
                      data-target="#ex-route-2">
                     <div className="ex-navigation__title status-free">
                         {
-                            intentionOwnerID===+getUserID()?
+                            isCurUserIntentionOwner?
                                 <img src="/Styles/dist/images/icons/relationship-dark.png" alt="relationship"/>
                                 :
                                 <img src="/Styles/dist/images/icons/relationship.png" alt="relationship"/>
@@ -355,7 +359,7 @@ class NavigationZ extends React.Component<Props, State> {
                     data-target="#ex-route-2">
                     <div className="ex-navigation__title status-free">
                         {
-                            intentionOwnerID===+getUserID()?
+                            isCurUserIntentionOwner?
                                 <img src="/Styles/dist/images/icons/credit-card-dark.png" alt="credit-card"/>
                                 :
                                 <img src="/Styles/dist/images/icons/credit-card.png" alt="credit-card"/>
