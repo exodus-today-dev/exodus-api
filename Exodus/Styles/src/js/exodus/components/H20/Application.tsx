@@ -20,6 +20,7 @@ import {TagMembersTable} from "./TagMembersTable";
 import {TagTotalTable} from "./TagTotalTable";
 import {linkStore} from "../../stores/LinkStore";
 import {observer} from "mobx-react";
+import {JoinToTag} from "../Shared/JoinToTag";
 
 interface Props {
     tagID: Number;
@@ -346,13 +347,14 @@ class H2OApplicationZ extends React.Component<Props, State> {
     render() {
         let {isIntentionsData, isObligationsData, isTablesShow, intentions, ownIntentions, obligations, completedCurMonth, expectedCurMonth, expectedNextMonth, intentionEdit, showIntentions, showObligations, loading, loadingDetails, indicatorDataReady} = this.state;
         let {tagRole} = this;
+        //console.log("tagRole app--->",tagRole)
         let monthsLeftCaption = "";
-        let tag=this.props.store.tag
+        let tag = this.props.store.tag
 
         //console.log("-> intentions", intentions);
         // console.log("-> ownIntentions", ownIntentions);
         //console.log("-> obligations", obligations);
-        // console.log("-> tag", tag);
+         //console.log("-> tag", tag);
 
         if (ownIntentions.length > 0) {
             let intention = ownIntentions[0];
@@ -410,212 +412,218 @@ class H2OApplicationZ extends React.Component<Props, State> {
         //tagRole = TagRole.None;
         return (
             <div>
-                {
-                    tagRole != TagRole.None &&
-                    <div className="ex-list ex-grid_0-1-1"
-                         data-loading={!isObligationsData && !isIntentionsData}
+                <div className="ex-list ex-grid_0-1-1"
+                     data-loading={!isObligationsData && !isIntentionsData}
+                >
+                    <div className='tag-invite-members-container_wrapper'
+                         style={{marginRight: `${getScrollWidth()}px`}}
                     >
-                        <div className='tag-invite-members-container_wrapper'
-                             style={{marginRight: `${getScrollWidth()}px`}}
-                        >
-                            <InviteUserToTag
-                                tagID={this.props.tagID}
-                                setIsTablesShow={this.setIsTablesShow}
-                                isTablesShow={isTablesShow}
-                            />
-                        </div>
-                        <div
-                            className={isTablesShow ? 'tag-members-table_wrapper' : 'tag-members-table_wrapper disabled-tag-table'}>
-                            <TagMembersTable
-                                isIntentionsData={isIntentionsData}
-                                isObligationsData={isObligationsData}
-                                intentions={intentions}
-                                obligations={obligations}
-                                intentionDelete={this.intentionDelete}
-                                obligationDelete={this.obligationDelete}
-                                // updateFundsInfo={this.updateFundsInfo}
-                                convertIntentionToObligation={this.convertIntentionToObligation}
-                                tag={tag}
-                            />
-                        </div>
-
-                        {
-                            Object.keys(tag).length > 0 &&
-                            <div
-                                className={isTablesShow ? 'tag-total-table_wrapper' : 'tag-total-table_wrapper disabled-tag-table'}
-                                style={{marginRight: `${getScrollWidth()}px`}}>
-                                <TagTotalTable
-                                    intentions={intentions}
-                                    obligations={obligations}
-                                    tag={tag}
-                                    isIntentionsData={isIntentionsData}
-                                    isObligationsData={isObligationsData}
-                                />
-                            </div>
+                        {tag.AccessType == AccessType.Public && tagRole == +TagRole.None &&
+                        <JoinToTag
+                            tag={tag}
+                            afterSubmitHandler={this.updateFundsInfo}
+                        />
+                        }
+                        {tagRole != +TagRole.None &&
+                        <InviteUserToTag
+                            tagID={this.props.tagID}
+                            setIsTablesShow={this.setIsTablesShow}
+                            isTablesShow={isTablesShow}
+                        />
                         }
                     </div>
-                }
-                {
-                    tagRole == TagRole.None &&
-                    <div className="ex-grid_0-1-0"
-                         data-loading={indicatorDataReady != 2 || loading}>
-                        <div className="ex-list__header">
-                            <div className="ex-list__item">
-                                <div className="ex-list__item-content">
-                                    <label
-                                        className="month-name">{moment().format("MMMM YYYY")}</label> ({getLangValue("Date.CurrentMonth")})
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ex-list__body">
-                            {/*
-                        <div style={{textAlign: 'center'}}>
-                            <button className="btn btn-outline-success w-80"
-                            style={{background: 'rgb(149, 198, 30) none repeat scroll 0% 0%', color:'white'}}
-                            >Подтвердить намерение</button>
-                        </div>
-                        */}
-
-                            {typeof tag.DefaultIntentionOwner !== 'undefined' && indicatorDataReady == 2 && (
-                                <LoadingCup
-                                    className="current-month-progress"
-                                    currency="$"
-                                    showLegend={true}
-                                    expected={expectedCurMonth}
-                                    completed={completedCurMonth}
-                                    full={tag.DefaultIntentionOwner.HelpDetail.UserHelpAmountRequired}
-                                    showCompletedIcon={tagRole != TagRole.None}
-                                    showExpectedIcon={tagRole != TagRole.None}
-                                    clickExpectedHandler={this.onIntentionsInfoClick}
-                                    clickCompletedHandler={this.onObligationsInfoClick}
-                                />
-
-                            )}
-
-                            {/*
-                            <div className="circular-progress-bars" style={{height:'150px'}}>
-                                <CircularProgressbar
-                                    percentage={30}
-                                    text={`${30} USD`}
-                                    counterClockwise={true}
-                                    strokeWidth={50}
-                                    initialAnimation={true}
-                                    styles={{
-                                        background: {
-                                            //fill: "#95c61e",
-                                        },
-                                        path: { stroke: '#95c61e', strokeLinecap: 'butt' },
-                                        text: { fill: 'transparent' },
-                                    }}
-                                />
-                                <CircularProgressbar
-                                    percentage={70}
-                                    text={`${70} USD`}
-                                    counterClockwise={true}
-                                    strokeWidth={50}
-                                    initialAnimation={true}
-                                    styles={{
-                                        path: { stroke: '#ffc517', strokeLinecap: 'butt' },
-                                        text: { fill: '#fff' },
-                                    }}
-                                />
-                                <CircularProgressbar
-                                    percentage={30}
-                                    text={`${30} USD`}
-                                    counterClockwise={false}
-                                    strokeWidth={50}
-                                    initialAnimation={true}
-                                    styles={{
-                                        path: { stroke: '#fd6721', strokeLinecap: 'butt' },
-                                        text: { fill: '#fff' },
-                                    }}
-                                />
-                            </div>
-
-                            <div className="meter-progress-bars" style={{height:'70px'}}>
-                                <meter value="50" max="100">Сумма сборов</meter>
-                                <meter value="20" max="100">Сумма сборов</meter>
-                                <meter value="10" max="100">Сумма сборов</meter>
-                            </div>
-
-                            <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row', color:'#222'}}>
-                                <div style={{textAlign: 'center', width: '250px'}}><small>Собрано : 1000 $</small></div>
-                                <div style={{textAlign: 'center', width: '250px'}}><small>Осталось: 98999 $</small></div>
-                            </div>
-                            */}
-                        </div>
-
-                        <div className="ex-list__header">
-                            <div className="ex-list__item">
-                                <div className="ex-list__item-content">
-                                    <label
-                                        className="month-name">{moment().add(1, 'month').format('MMMM YYYY')}</label> ({getLangValue("Date.NextMonth")})
-                                </div>
-                            </div>
-                        </div>
-
-                        {typeof tag.DefaultIntentionOwner !== 'undefined' && (
-                            <div className="ex-list__body">
-                                <MonthProgressBar
-                                    className="next-month-progress" currency="$"
-                                    completed={expectedNextMonth}
-                                    full={tag.DefaultIntentionOwner.HelpDetail.UserHelpAmountRequired}/>
-                            </div>
-                        )}
-
-                        {tag.AccessType == AccessType.Public && ownIntentions.length == 0 && tagRole == TagRole.None && (
-                            <AddIntentionToApplication userID={this.userID}
-                                                       tag={tag}
-                                                       onIntentionAdded={this.afterIntentionAdded}/>
-                        )}
-
-                        {ownIntentions.length > 0 && intentionEdit == false && (
-                            <div>
-                                <div className="ex-list__header">
-                                    <div className="ex-list__item">
-                                        <div className="ex-list__item-content">
-                                            <label>{getLangValue("YouTakePart")}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ex-list__body">
-                                    <div className="h2o-user-intention">
-                                        <span>{monthsLeftCaption}</span>
-                                        <button
-                                            className="btn btn-outline-success w-80"
-                                            onClick={() => this.onIntentionChangeClick(ownIntentions[0].IntentionID)}>{getLangValue('Change')}</button>
-                                        <button
-                                            className="btn btn-outline-danger w-80"
-                                            onClick={() => this.onIntentionDeclineClick(ownIntentions[0].IntentionID)}>{getLangValue('Decline')}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        {ownIntentions.length > 0 && intentionEdit == true && (
-                            <div>
-                                <div className="ex-list__header">
-                                    <div className="ex-list__item">
-                                        <div className="ex-list__item-content">
-                                            <label>{getLangValue("YouTakePart")}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ex-list__body">
-                                    <AddIntentionToApplication
-                                        userID={this.userID}
-                                        tag={tag}
-                                        onIntentionAdded={this.afterIntentionUpdated}
-                                        editMode={true}
-                                        intentionID={ownIntentions[0].IntentionID}
-                                        intentionAmount={ownIntentions[0].IntentionAmount}
-                                        intentionCurrencyID={ownIntentions[0].CurrencyID}
-                                        intentionTerm={ownIntentions[0].IntentionTerm}
-                                        intentionDurationMonths={ownIntentions[0].IntentionDurationMonths}/>
-                                </div>
-                            </div>
-                        )}
+                    <div
+                        className={isTablesShow ? 'tag-members-table_wrapper' : 'tag-members-table_wrapper disabled-tag-table'}>
+                        <TagMembersTable
+                            isIntentionsData={isIntentionsData}
+                            isObligationsData={isObligationsData}
+                            intentions={intentions}
+                            obligations={obligations}
+                            intentionDelete={this.intentionDelete}
+                            obligationDelete={this.obligationDelete}
+                            // updateFundsInfo={this.updateFundsInfo}
+                            convertIntentionToObligation={this.convertIntentionToObligation}
+                            tag={tag}
+                        />
                     </div>
-                }
+
+                    {
+                        Object.keys(tag).length > 0 &&
+                        <div
+                            className={isTablesShow ? 'tag-total-table_wrapper' : 'tag-total-table_wrapper disabled-tag-table'}
+                            style={{marginRight: `${getScrollWidth()}px`}}>
+                            <TagTotalTable
+                                intentions={intentions}
+                                obligations={obligations}
+                                tag={tag}
+                                isIntentionsData={isIntentionsData}
+                                isObligationsData={isObligationsData}
+                            />
+                        </div>
+                    }
+                </div>
+
+                {/*{*/}
+                {/*    tagRole == TagRole.None &&*/}
+                {/*    <div className="ex-grid_0-1-0"*/}
+                {/*         data-loading={indicatorDataReady != 2 || loading}>*/}
+                {/*        <div className="ex-list__header">*/}
+                {/*            <div className="ex-list__item">*/}
+                {/*                <div className="ex-list__item-content">*/}
+                {/*                    <label*/}
+                {/*                        className="month-name">{moment().format("MMMM YYYY")}</label> ({getLangValue("Date.CurrentMonth")})*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*        <div className="ex-list__body">*/}
+                {/*            /!**/}
+                {/*        <div style={{textAlign: 'center'}}>*/}
+                {/*            <button className="btn btn-outline-success w-80"*/}
+                {/*            style={{background: 'rgb(149, 198, 30) none repeat scroll 0% 0%', color:'white'}}*/}
+                {/*            >Подтвердить намерение</button>*/}
+                {/*        </div>*/}
+                {/*        *!/*/}
+
+                {/*            {typeof tag.DefaultIntentionOwner !== 'undefined' && indicatorDataReady == 2 && (*/}
+                {/*                <LoadingCup*/}
+                {/*                    className="current-month-progress"*/}
+                {/*                    currency="$"*/}
+                {/*                    showLegend={true}*/}
+                {/*                    expected={expectedCurMonth}*/}
+                {/*                    completed={completedCurMonth}*/}
+                {/*                    full={tag.DefaultIntentionOwner.HelpDetail.UserHelpAmountRequired}*/}
+                {/*                    showCompletedIcon={tagRole != TagRole.None}*/}
+                {/*                    showExpectedIcon={tagRole != TagRole.None}*/}
+                {/*                    clickExpectedHandler={this.onIntentionsInfoClick}*/}
+                {/*                    clickCompletedHandler={this.onObligationsInfoClick}*/}
+                {/*                />*/}
+
+                {/*            )}*/}
+
+                {/*            /!**/}
+                {/*            <div className="circular-progress-bars" style={{height:'150px'}}>*/}
+                {/*                <CircularProgressbar*/}
+                {/*                    percentage={30}*/}
+                {/*                    text={`${30} USD`}*/}
+                {/*                    counterClockwise={true}*/}
+                {/*                    strokeWidth={50}*/}
+                {/*                    initialAnimation={true}*/}
+                {/*                    styles={{*/}
+                {/*                        background: {*/}
+                {/*                            //fill: "#95c61e",*/}
+                {/*                        },*/}
+                {/*                        path: { stroke: '#95c61e', strokeLinecap: 'butt' },*/}
+                {/*                        text: { fill: 'transparent' },*/}
+                {/*                    }}*/}
+                {/*                />*/}
+                {/*                <CircularProgressbar*/}
+                {/*                    percentage={70}*/}
+                {/*                    text={`${70} USD`}*/}
+                {/*                    counterClockwise={true}*/}
+                {/*                    strokeWidth={50}*/}
+                {/*                    initialAnimation={true}*/}
+                {/*                    styles={{*/}
+                {/*                        path: { stroke: '#ffc517', strokeLinecap: 'butt' },*/}
+                {/*                        text: { fill: '#fff' },*/}
+                {/*                    }}*/}
+                {/*                />*/}
+                {/*                <CircularProgressbar*/}
+                {/*                    percentage={30}*/}
+                {/*                    text={`${30} USD`}*/}
+                {/*                    counterClockwise={false}*/}
+                {/*                    strokeWidth={50}*/}
+                {/*                    initialAnimation={true}*/}
+                {/*                    styles={{*/}
+                {/*                        path: { stroke: '#fd6721', strokeLinecap: 'butt' },*/}
+                {/*                        text: { fill: '#fff' },*/}
+                {/*                    }}*/}
+                {/*                />*/}
+                {/*            </div>*/}
+
+                {/*            <div className="meter-progress-bars" style={{height:'70px'}}>*/}
+                {/*                <meter value="50" max="100">Сумма сборов</meter>*/}
+                {/*                <meter value="20" max="100">Сумма сборов</meter>*/}
+                {/*                <meter value="10" max="100">Сумма сборов</meter>*/}
+                {/*            </div>*/}
+
+                {/*            <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row', color:'#222'}}>*/}
+                {/*                <div style={{textAlign: 'center', width: '250px'}}><small>Собрано : 1000 $</small></div>*/}
+                {/*                <div style={{textAlign: 'center', width: '250px'}}><small>Осталось: 98999 $</small></div>*/}
+                {/*            </div>*/}
+                {/*            *!/*/}
+                {/*        </div>*/}
+
+                {/*        <div className="ex-list__header">*/}
+                {/*            <div className="ex-list__item">*/}
+                {/*                <div className="ex-list__item-content">*/}
+                {/*                    <label*/}
+                {/*                        className="month-name">{moment().add(1, 'month').format('MMMM YYYY')}</label> ({getLangValue("Date.NextMonth")})*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+
+                {/*        {typeof tag.DefaultIntentionOwner !== 'undefined' && (*/}
+                {/*            <div className="ex-list__body">*/}
+                {/*                <MonthProgressBar*/}
+                {/*                    className="next-month-progress" currency="$"*/}
+                {/*                    completed={expectedNextMonth}*/}
+                {/*                    full={tag.DefaultIntentionOwner.HelpDetail.UserHelpAmountRequired}/>*/}
+                {/*            </div>*/}
+                {/*        )}*/}
+
+                {/*        {tag.AccessType == AccessType.Public && ownIntentions.length == 0 && tagRole == TagRole.None && (*/}
+                {/*            <AddIntentionToApplication userID={this.userID}*/}
+                {/*                                       tag={tag}*/}
+                {/*                                       onIntentionAdded={this.afterIntentionAdded}/>*/}
+                {/*        )}*/}
+
+                {/*        {ownIntentions.length > 0 && intentionEdit == false && (*/}
+                {/*            <div>*/}
+                {/*                <div className="ex-list__header">*/}
+                {/*                    <div className="ex-list__item">*/}
+                {/*                        <div className="ex-list__item-content">*/}
+                {/*                            <label>{getLangValue("YouTakePart")}</label>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*                <div className="ex-list__body">*/}
+                {/*                    <div className="h2o-user-intention">*/}
+                {/*                        <span>{monthsLeftCaption}</span>*/}
+                {/*                        <button*/}
+                {/*                            className="btn btn-outline-success w-80"*/}
+                {/*                            onClick={() => this.onIntentionChangeClick(ownIntentions[0].IntentionID)}>{getLangValue('Change')}</button>*/}
+                {/*                        <button*/}
+                {/*                            className="btn btn-outline-danger w-80"*/}
+                {/*                            onClick={() => this.onIntentionDeclineClick(ownIntentions[0].IntentionID)}>{getLangValue('Decline')}</button>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        )}*/}
+                {/*        {ownIntentions.length > 0 && intentionEdit == true && (*/}
+                {/*            <div>*/}
+                {/*                <div className="ex-list__header">*/}
+                {/*                    <div className="ex-list__item">*/}
+                {/*                        <div className="ex-list__item-content">*/}
+                {/*                            <label>{getLangValue("YouTakePart")}</label>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*                <div className="ex-list__body">*/}
+                {/*                    <AddIntentionToApplication*/}
+                {/*                        userID={this.userID}*/}
+                {/*                        tag={tag}*/}
+                {/*                        onIntentionAdded={this.afterIntentionUpdated}*/}
+                {/*                        editMode={true}*/}
+                {/*                        intentionID={ownIntentions[0].IntentionID}*/}
+                {/*                        intentionAmount={ownIntentions[0].IntentionAmount}*/}
+                {/*                        intentionCurrencyID={ownIntentions[0].CurrencyID}*/}
+                {/*                        intentionTerm={ownIntentions[0].IntentionTerm}*/}
+                {/*                        intentionDurationMonths={ownIntentions[0].IntentionDurationMonths}/>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        )}*/}
+                {/*    </div>*/}
+                {/*}*/}
 
                 {/*<div id="ex-route-3" className="ex-grid_0-0-1"*/}
                 {/*     data-loading={loadingDetails}>*/}

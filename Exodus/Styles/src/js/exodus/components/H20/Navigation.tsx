@@ -100,7 +100,7 @@ class NavigationZ extends React.Component<Props, State> {
                         curMonthObligationPercent = NaN,
                         nextMonthObligationAmount = NaN,
                         nextMonthObligationPercent = NaN;
-                    console.log("-> helpDetail", data);
+                   // console.log("-> helpDetail", data);
                     if (helpDetail.HelpDetailID !== -1) {
                         // TODO: get values for intensions
                         /*
@@ -165,7 +165,8 @@ class NavigationZ extends React.Component<Props, State> {
                 tagRole: tagRole,
                 allowCopyLink: allowCopyLink
             }, () => {
-                bind(document.getElementById('ex-route-1'));
+                bind(document.querySelector('#ex-route-1 > div'));  //prevent double load
+               // bind(document.getElementById('ex-route-1'));
             });
         }
 

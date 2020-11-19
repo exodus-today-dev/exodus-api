@@ -24,9 +24,11 @@ export class TagTotalTable extends React.Component<Props> {
         let {intentions, obligations, tag, isIntentionsData, isObligationsData} = this.props;
         let totalTagIntentions = intentions.reduce((sum, intention) => sum + intention.IntentionAmount, 0);
         let totalTagObligations = obligations.reduce((sum, obligation) => sum + obligation.AmountTotal, 0);
+       // console.log('----////>>>',isObligationsData,isIntentionsData)
 
         return (
-            isIntentionsData && isObligationsData &&   <table className='tag-members-table'>
+            isIntentionsData && isObligationsData &&
+            <table className='tag-members-table'>
                 <thead>
                 <tr key='header' className='tab-header'>
                     <th key='header1' className='tab-header_icon'>

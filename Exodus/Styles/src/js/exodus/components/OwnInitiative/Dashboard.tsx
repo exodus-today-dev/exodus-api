@@ -20,6 +20,7 @@ import {TagTotalTable} from "../H20/TagTotalTable";
 import {linkStore} from "../../stores/LinkStore";
 import {inject, observer, Provider} from "mobx-react";
 import {log} from "util";
+import {JoinToTag} from "../Shared/JoinToTag";
 
 
 enum DashboardTab {
@@ -51,7 +52,7 @@ interface State {
 
 //@inject('store')
 @observer
- class OwnInitiativeDashboardD extends React.Component<Props, State> {
+class OwnInitiativeDashboardD extends React.Component<Props, State> {
     userID: any;
     tagRole: TagRole;
 
@@ -78,8 +79,8 @@ interface State {
         this.getScrollWidth = this.getScrollWidth.bind(this);
         this.obligationDelete = this.obligationDelete.bind(this);
         this.intentionDelete = this.intentionDelete.bind(this);
-        this.onConvertToObligationClick=this.onConvertToObligationClick.bind(this)
-        this.setIsTablesShow=this.setIsTablesShow.bind(this)
+        this.onConvertToObligationClick = this.onConvertToObligationClick.bind(this)
+        this.setIsTablesShow = this.setIsTablesShow.bind(this)
     }
 
     componentWillMount() {
@@ -118,7 +119,7 @@ interface State {
         });
 
         // check if user joined application
-        if (this.tagRole != TagRole.None) {
+        // if (this.tagRole != TagRole.None) {
 
             fetch('/api/Intention/Get_ByTagID?api_key=' + getApiKey() + '&TagID=' + this.props.tagID, {credentials: 'include'})
                 .then(response => response.json())
@@ -159,7 +160,7 @@ interface State {
                         isObligationsData: true
                     });
                 });
-        }
+        // }
     }
 
     // async afterIntentionAdded() {
@@ -167,8 +168,8 @@ interface State {
     //    this.getIntentionsInfo()
     // }
     async updateFundsInfo() {
-       this.tagRole = await window.updateTagRoleInfo();
-       this.getIntentionsInfo()
+        this.tagRole = await window.updateTagRoleInfo();
+        this.getIntentionsInfo()
     }
 
     onReportEventClick() {
@@ -259,7 +260,9 @@ interface State {
         return scrollWidth;
     }
 
-    setIsTablesShow(bool:boolean){this.setState({isTablesShow:bool}) }
+    setIsTablesShow(bool: boolean) {
+        this.setState({isTablesShow: bool})
+    }
 
 
     render() {
@@ -283,10 +286,11 @@ interface State {
         //             </tr>
         //         </thead>
 
-        let { intentions, obligations,isTablesShow, isObligationsData, isIntentionsData, intentionType, fundsCollected, fundsExpected, currentTab} = this.state;
+        let {intentions, obligations, isTablesShow, isObligationsData, isIntentionsData, intentionType, fundsCollected, fundsExpected, currentTab} = this.state;
         let {tagRole} = this;
-        let tag=this.props.store.tag
-      //  console.log('************', intentions, obligations, tag)
+        let tag = this.props.store.tag
+        //  console.log('************', intentions, obligations, tag)
+        //console.log("tagRole dash--->",tagRole)
 
         return (
             <div className="ex-list ex-grid_0-1-1"
@@ -295,14 +299,23 @@ interface State {
                 <div className='tag-invite-members-container_wrapper'
                      style={{marginRight: `${getScrollWidth()}px`}}
                 >
+                    {tag.AccessType == AccessType.Public && tagRole == +TagRole.None &&
+                    <JoinToTag
+                        tag={tag}
+                        afterSubmitHandler={this.updateFundsInfo}
+                    />
+                    }
+                    {tagRole != +TagRole.None &&
                     <InviteUserToTag
                         tagID={this.props.tagID}
                         setIsTablesShow={this.setIsTablesShow}
                         isTablesShow={isTablesShow}
                     />
+                    }
                 </div>
                 {/*<button onClick={()=>this.props.store.setRefreshData(!this.props.store.refreshData)}>link</button>*/}
-                <div className={isTablesShow?'tag-members-table_wrapper':'tag-members-table_wrapper disabled-tag-table'}>
+                <div
+                    className={isTablesShow ? 'tag-members-table_wrapper' : 'tag-members-table_wrapper disabled-tag-table'}>
                     <TagMembersTable
                         isIntentionsData={isIntentionsData}
                         isObligationsData={isObligationsData}
@@ -310,7 +323,7 @@ interface State {
                         obligations={obligations}
                         intentionDelete={this.intentionDelete}
                         obligationDelete={this.obligationDelete}
-                       // updateFundsInfo={this.updateFundsInfo}
+                        // updateFundsInfo={this.updateFundsInfo}
                         convertIntentionToObligation={this.onConvertToObligationClick}
                         tag={tag}
                     />
@@ -318,8 +331,9 @@ interface State {
 
                 {
                     Object.keys(tag).length > 0 &&
-                    <div className={isTablesShow?'tag-total-table_wrapper':'tag-total-table_wrapper disabled-tag-table'}
-                         style={{marginRight: `${this.getScrollWidth()}px`}}>
+                    <div
+                        className={isTablesShow ? 'tag-total-table_wrapper' : 'tag-total-table_wrapper disabled-tag-table'}
+                        style={{marginRight: `${this.getScrollWidth()}px`}}>
                         <TagTotalTable
                             intentions={intentions}
                             obligations={obligations}
@@ -477,14 +491,14 @@ interface State {
 export class OwnInitiativeDashboard extends React.Component<Props, State> {
     render() {
         return (
-           // <Provider store={linkStore}>
-                <OwnInitiativeDashboardD
-                    tagID={this.props.tagID}
-                    tagDescription={this.props.tagDescription}
-                    tagRole={this.props.tagRole}
-                    store={linkStore}
-                />
-          //  </Provider>
+            // <Provider store={linkStore}>
+            <OwnInitiativeDashboardD
+                tagID={this.props.tagID}
+                tagDescription={this.props.tagDescription}
+                tagRole={this.props.tagRole}
+                store={linkStore}
+            />
+            //  </Provider>
         )
     }
 }

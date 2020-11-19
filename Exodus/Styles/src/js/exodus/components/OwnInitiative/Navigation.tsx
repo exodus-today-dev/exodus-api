@@ -136,7 +136,7 @@ class NavigationN extends React.Component<Props, State> {
             });
         }
 
-        // return tagRole;
+         return tagRole;
     }
 
 
